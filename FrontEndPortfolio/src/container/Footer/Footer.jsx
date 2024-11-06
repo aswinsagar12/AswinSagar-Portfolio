@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { images } from '../../constants';
 import { AppWrap, MotionWrap } from '../../wrapper';
 import { client } from '../../client';
@@ -35,27 +34,61 @@ const Footer = () => {
       .catch((err) => console.log(err));
   };
 
+  const handleCopyToClipboard = (text) => {
+    navigator.clipboard.writeText(text)
+      .then(() => alert(`${text} copied to clipboard!`))
+      .catch(err => console.log('Failed to copy: ', err));
+  };
+
   return (
     <>
       <h2 className="head-text">Take a coffee & chat with me</h2>
 
       <div className="app__footer-cards">
-        <div className="app__footer-card ">
+        {/* Email Card */}
+        <div className="app__footer-card">
           <img src={images.email} alt="email" />
-          <a href="aswinsagar12@gmail.com" className="p-text">aswinsagar12@gmail.com</a>
+          <button
+            className="p-text app__footer-copy-btn"
+            onClick={() => handleCopyToClipboard('aswinsagar12@gmail.com')}
+          >
+            aswinsagar12@gmail.com
+          </button>
         </div>
+
+        {/* Phone Card */}
         <div className="app__footer-card">
           <img src={images.mobile} alt="phone" />
-          <a href="tel:+917907459514" className="p-text">+91 790-745-9514</a>
+          <button
+            className="p-text app__footer-copy-btn"
+            onClick={() => handleCopyToClipboard('+917907459514')}
+          >
+            +91 790-745-9514
+          </button>
         </div>
       </div>
+
       {!isFormSubmitted ? (
         <div className="app__footer-form app__flex">
           <div className="app__flex">
-            <input className="p-text" type="text" placeholder="Your Name" name="username" value={username} onChange={handleChangeInput} />
+            <input
+              className="p-text"
+              type="text"
+              placeholder="Your Name"
+              name="username"
+              value={username}
+              onChange={handleChangeInput}
+            />
           </div>
           <div className="app__flex">
-            <input className="p-text" type="email" placeholder="Your Email" name="email" value={email} onChange={handleChangeInput} />
+            <input
+              className="p-text"
+              type="email"
+              placeholder="Your Email"
+              name="email"
+              value={email}
+              onChange={handleChangeInput}
+            />
           </div>
           <div>
             <textarea
@@ -66,7 +99,9 @@ const Footer = () => {
               onChange={handleChangeInput}
             />
           </div>
-          <button type="button" className="p-text" onClick={handleSubmit}>{!loading ? 'Send Message' : 'Sending...'}</button>
+          <button type="button" className="p-text" onClick={handleSubmit}>
+            {!loading ? 'Send Message' : 'Sending...'}
+          </button>
         </div>
       ) : (
         <div>
