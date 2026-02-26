@@ -15,8 +15,10 @@ const CustomCursor = () => {
     const onMove = (event) => {
       targetX = event.clientX;
       targetY = event.clientY;
-      cursor.style.transform = `translate(${targetX}px, ${targetY}px)`;
-      dot.style.transform = `translate(${targetX}px, ${targetY}px)`;
+      cursor.style.left = `${targetX}px`;
+      cursor.style.top = `${targetY}px`;
+      dot.style.left = `${targetX}px`;
+      dot.style.top = `${targetY}px`;
     };
 
     const onEnter = () => cursor.classList.add("cursor--active");
