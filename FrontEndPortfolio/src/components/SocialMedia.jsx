@@ -10,7 +10,7 @@ const SocialMedia = () => {
         rel="noreferrer"
         aria-label="GitHub"
       >
-        <BsGithub />
+        <BsGithub size={16} />
       </a>
       <a
         href="https://www.linkedin.com/in/aswinsagar12/"
@@ -18,7 +18,7 @@ const SocialMedia = () => {
         rel="noreferrer"
         aria-label="LinkedIn"
       >
-        <BsLinkedin />
+        <BsLinkedin size={16} />
       </a>
       <a
         href="https://twitter.com/Aswinsagar12"
@@ -26,7 +26,7 @@ const SocialMedia = () => {
         rel="noreferrer"
         aria-label="Twitter"
       >
-        <BsTwitter />
+        <BsTwitter size={16} />
       </a>
     </div>
   );

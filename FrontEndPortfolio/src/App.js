@@ -9,8 +9,10 @@ import {
   Hero,
   Marquee,
   About,
-  Profile,
   Experience,
+  Skills,
+  Creative,
+  Testimonials,
   Contact,
   Footer,
 } from "./components";
@@ -51,7 +53,7 @@ const App = () => {
     lenis.on("scroll", onScroll);
 
     gsap.from(".hero__letter", {
-      y: 50,
+      y: 20,
       opacity: 0,
       duration: 1.2,
       ease: "power3.out",
@@ -65,7 +67,7 @@ const App = () => {
           trigger: title,
           start: "top 80%",
         },
-        y: 40,
+        y: 20,
         opacity: 0,
         duration: 0.8,
         ease: "power3.out",
@@ -88,9 +90,10 @@ const App = () => {
       <Hero />
       <Marquee text="SITE RELIABILITY — OBSERVABILITY — DEVOPS — PLATFORM — " inverted />
       <About />
-      <Marquee text="SLOs — INCIDENT RESPONSE — RELIABILITY ENGINEERING — " />
-      <Profile />
+      <Skills />
       <Experience />
+      <Creative />
+      <Testimonials />
       <Contact />
       <Footer />
     </div>

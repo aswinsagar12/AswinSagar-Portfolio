@@ -19,7 +19,7 @@ const Navbar = () => {
         ))}
       </ul>
 
-      <div className="app__navbar-meta">©2026</div>
+      <div className="app__navbar-meta">2026</div>
 
       <div className="app__navbar-menu">
         <HiMenuAlt4 onClick={() => setToggle(true)} />

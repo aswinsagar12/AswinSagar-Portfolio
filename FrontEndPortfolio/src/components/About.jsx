@@ -22,12 +22,12 @@ const About = () => {
       </div>
       <div className="about__grid">
         <div className="about__left">
-          <div className="about__badge">02</div>
+          <div className="about__badge"></div>
         </div>
         <div className="about__right">
           <p className="about__text">
             {primary?.description ||
-              "I build reliable, observable systems that scale. My focus is on SRE practices, automation, incident response, and platform resilience."}
+              "From design thinking to development, DevOps, and now SRE — I build calm, reliable systems that scale. I turn chaos into clarity with automation, observability, and disciplined reliability practices."}
           </p>
           <div className="about__skills">
             SRE, DevOps, Observability, Incident Response, Capacity Planning,
