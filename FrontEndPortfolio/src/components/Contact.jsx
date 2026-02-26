@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useRef } from "react";
+import useScrollReveal from "../hooks/useScrollReveal";
 
 const Contact = () => {
+  const titleRef = useRef(null);
+  const emailRef = useRef(null);
+  const linksRef = useRef(null);
+
+  useScrollReveal(titleRef);
+  useScrollReveal(emailRef);
+  useScrollReveal(linksRef);
+
   return (
     <section className="contact section" id="contact" data-scroll-section>
       <div className="contact__content">
-        <h2 className="contact__title io-reveal">Let's Work Together</h2>
-        <a className="contact__email" href="mailto:aswinsagar12@gmail.com">
+        <h2 className="contact__title reveal" ref={titleRef}>
+          Let's Work Together
+        </h2>
+        <a className="contact__email reveal" ref={emailRef} href="mailto:aswinsagar12@gmail.com">
           aswinsagar12@gmail.com
         </a>
-        <div className="contact__links">
+        <div className="contact__links reveal" ref={linksRef}>
           <a href="https://www.linkedin.com/in/aswinsagar12/" target="_blank" rel="noreferrer">
             LinkedIn
           </a>

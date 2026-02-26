@@ -1,4 +1,5 @@
 export { default as Navbar } from "./Navbar";
+export { default as CustomCursor } from "./CustomCursor";
 export { default as SocialMedia } from "./SocialMedia";
 export { default as Hero } from "./Hero";
 export { default as Marquee } from "./Marquee";

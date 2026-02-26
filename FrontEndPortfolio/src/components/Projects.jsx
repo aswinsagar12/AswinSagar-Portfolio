@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+﻿import React, { useEffect, useState } from "react";
 import { client } from "../client";
 
 const Projects = () => {
@@ -56,7 +56,7 @@ const Projects = () => {
                 ))}
               </div>
             </div>
-            <div className="project-row__arrow">↗</div>
+            <div className="project-row__arrow">-></div>
           </a>
         ))}
       </div>
@@ -65,3 +65,5 @@ const Projects = () => {
 };
 
 export default Projects;
+
+

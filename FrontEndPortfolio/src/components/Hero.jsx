@@ -1,14 +1,11 @@
-import React, { useEffect, useRef } from "react";
-
-const splitLetters = (text) =>
-  text.split("").map((char, index) => (
-    <span className="hero__letter" key={`${char}-${index}`}>
-      {char}
-    </span>
-  ));
+﻿import React, { useEffect, useRef } from "react";
+import useScrollReveal from "../hooks/useScrollReveal";
 
 const Hero = () => {
   const canvasRef = useRef(null);
+  const captionRef = useRef(null);
+
+  useScrollReveal(captionRef);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -86,21 +83,32 @@ const Hero = () => {
   return (
     <section className="hero section" id="home" data-scroll-section>
       <canvas ref={canvasRef} className="hero__canvas" />
-      <div className="hero__content">
+      <div className="hero__content is-visible">
         <div className="hero__spacer" aria-hidden="true" />
         <div className="hero__right">
           <div className="hero__heading">
             <h1 className="hero__title">
-              <span className="hero__line">{splitLetters("ASWIN")}</span>
-              <span className="hero__line">{splitLetters("SAGAR")}</span>
+              {["ASWIN", "SAGAR"].map((word, index) => (
+                <span
+                  className="hero__word"
+                  style={{ transitionDelay: `${0.1 + index * 0.1}s` }}
+                  key={word}
+                >
+                  <span className="hero__word-inner">{word}</span>
+                </span>
+              ))}
             </h1>
-            <div className="hero__orbit" data-scroll data-scroll-speed="1.5">
-              ↗
+            <div className="hero__orbit" aria-hidden="true">
+              {"\u2197"}
             </div>
           </div>
           <div className="hero__meta">
             <span className="hero__role">SITE RELIABILITY ENGINEER</span>
-            <span className="hero__caption soft-text io-reveal">
+            <span
+              className="hero__caption soft-text reveal"
+              ref={captionRef}
+              style={{ transitionDelay: "0.3s" }}
+            >
               I build calm, resilient platforms
               for teams that ship
               with confidence.
@@ -113,3 +121,6 @@ const Hero = () => {
 };
 
 export default Hero;
+
+
+
