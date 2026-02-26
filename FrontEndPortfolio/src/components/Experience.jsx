@@ -10,12 +10,18 @@ const Experience = () => {
       <div className="experience__list">
         <div className="experience__item">
           <div className="experience__num">01</div>
-          <div className="experience__role">Site Reliability Engineer</div>
+          <div className="experience__role">
+            Site Reliability Engineer
+            <span className="experience__company">Garden City Games</span>
+          </div>
           <div className="experience__details">2025 — Present</div>
         </div>
         <div className="experience__item">
           <div className="experience__num">02</div>
-          <div className="experience__role">DevOps & Cloud Engineer</div>
+          <div className="experience__role">
+            DevOps & Cloud Engineer
+            <span className="experience__company">HCLTech</span>
+          </div>
           <div className="experience__details">2022 — 2025</div>
         </div>
       </div>

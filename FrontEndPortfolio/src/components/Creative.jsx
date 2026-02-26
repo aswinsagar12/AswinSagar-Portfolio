@@ -9,10 +9,22 @@ const Creative = () => {
       </div>
       <div className="creative__grid">
         <div className="creative__list">
-          <div className="creative__item creative__item--one">Biker</div>
-          <div className="creative__item creative__item--two">Gym</div>
-          <div className="creative__item creative__item--three">Sports</div>
-          <div className="creative__item creative__item--four">Editing</div>
+          <div className="creative__row">
+            <span className="creative__num">01</span>
+            <span className="creative__item">Biker</span>
+          </div>
+          <div className="creative__row">
+            <span className="creative__num">02</span>
+            <span className="creative__item">Gym</span>
+          </div>
+          <div className="creative__row">
+            <span className="creative__num">03</span>
+            <span className="creative__item">Sports</span>
+          </div>
+          <div className="creative__row">
+            <span className="creative__num">04</span>
+            <span className="creative__item">Editing</span>
+          </div>
         </div>
         <div className="creative__shapes">
           <div className="creative__shape creative__shape--ring" />

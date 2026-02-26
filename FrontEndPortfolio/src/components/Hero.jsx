@@ -26,7 +26,7 @@ const Hero = () => {
             <span>SITE RELIABILITY ENGINEER</span>
             <span>
               I solve reliability problems at scale by aligning systems, people,
-              and process. Former architect of incident response.
+              and process.
             </span>
           </div>
         </div>

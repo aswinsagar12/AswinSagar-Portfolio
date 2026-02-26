@@ -51,9 +51,17 @@ a {
   margin-bottom: 2.5rem;
 }
 
+.section__header::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: #222;
+}
+
 .section__number {
   font-family: var(--mono);
-  font-size: 0.9rem;
+  font-size: 16px;
+  line-height: 24px;
   color: var(--muted);
 }
 
@@ -61,7 +69,7 @@ a {
   font-family: var(--serif);
   font-size: clamp(2rem, 4vw, 4rem);
   font-weight: 400;
-  letter-spacing: 0.02em;
+  letter-spacing: 0;
 }
 
 .navbar {
@@ -121,7 +129,7 @@ a {
 .social {
   position: fixed;
   left: 1.8vw;
-  bottom: 1vw;
+  bottom: 5vw;
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
@@ -167,6 +175,7 @@ a {
   justify-self: end;
   max-width: 520px;
   text-align: right;
+  padding-right: 2vw;
 }
 
 .hero__heading {
@@ -174,6 +183,7 @@ a {
   align-items: flex-start;
   justify-content: flex-end;
   gap: 2rem;
+  position: relative;
 }
 
 .hero__meta span:nth-child(2) {
@@ -208,6 +218,9 @@ a {
   font-family: var(--mono);
   animation: spin 8s linear infinite;
   color: var(--accent);
+  position: absolute;
+  right: -2rem;
+  top: -0.5rem;
 }
 
 .hero__meta {
@@ -312,7 +325,8 @@ a {
 }
 
 .experience__num {
-  font-size: 0.9rem;
+  font-size: 16px;
+  line-height: 24px;
   color: var(--muted);
 }
 
@@ -321,14 +335,25 @@ a {
   font-size: clamp(1.6rem, 3vw, 2.5rem);
   font-weight: 400;
   margin: 0;
+  display: grid;
+  gap: 0.35rem;
 }
 
 .experience__details {
-  font-size: 14px;
-  line-height: 22px;
+  font-size: 16px;
+  line-height: 24px;
   color: var(--accent);
   justify-self: end;
   text-align: right;
+}
+
+.experience__company {
+  font-size: 14px;
+  line-height: 22px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  display: block;
 }
 
 .experience__item:hover {
@@ -338,6 +363,11 @@ a {
 
 .experience__item:hover .experience__details {
   color: rgba(10, 10, 10, 0.7);
+}
+
+.about {
+  padding-left: 8vw;
+  padding-right: 8vw;
 }
 
 .about__grid {
@@ -402,23 +432,8 @@ a {
   font-size: 0.8rem;
 }
 
-.quote-band {
-  border-top: 1px solid #222;
-  border-bottom: 1px solid #222;
-  padding: 3rem 6vw;
-  display: flex;
-  justify-content: flex-end;
-}
-
-.quote-band__text {
-  max-width: 520px;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: var(--accent);
-}
-
 .testimonials {
-  padding: clamp(4.5rem, 10vw, 9rem) 6vw;
+  padding: clamp(4.5rem, 10vw, 9rem) 8vw;
 }
 
 .testimonials__grid {
@@ -461,33 +476,30 @@ a {
 
 .creative__list {
   display: grid;
+  gap: 1.25rem;
+}
+
+.creative__row {
+  display: grid;
+  grid-template-columns: minmax(40px, 60px) 1fr;
   gap: 1.5rem;
+  align-items: baseline;
+  border-bottom: 1px solid #222;
+  padding-bottom: 0.8rem;
+}
+
+.creative__num {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--muted);
 }
 
 .creative__item {
   font-family: var(--serif);
   font-size: clamp(1.6rem, 3vw, 3rem);
   font-weight: 400;
-  border-bottom: 1px solid #222;
-  padding-bottom: 0.8rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-}
-
-.creative__item--one {
-  margin-left: 0;
-}
-
-.creative__item--two {
-  margin-left: 1.5rem;
-}
-
-.creative__item--three {
-  margin-left: 3rem;
-}
-
-.creative__item--four {
-  margin-left: 1rem;
 }
 
 .creative__shapes {
@@ -500,7 +512,7 @@ a {
   border: 6px solid var(--accent);
   border-radius: 50%;
   opacity: 0.9;
-  animation: float 12s ease-in-out infinite;
+  animation: float 18s ease-in-out infinite;
 }
 
 .creative__shape--ring {
@@ -537,7 +549,7 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 2rem 6vw;
+  padding: 2rem 6vw 6rem;
   font-family: var(--mono);
   font-size: 0.75rem;
   letter-spacing: 0.2em;
@@ -588,6 +600,12 @@ a {
   .hero__right {
     text-align: left;
     justify-self: start;
+    padding-right: 0;
+  }
+
+  .hero__orbit {
+    position: static;
+    margin-top: 0.5rem;
   }
 
   .about__grid {
@@ -620,6 +638,18 @@ a {
 
   .social {
     left: 1.5rem;
-    bottom: 1.5rem;
+    bottom: 2rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .hero__title {
+    font-size: clamp(3rem, 18vw, 4.5rem);
+    line-height: 1.05;
+  }
+
+  .hero__meta {
+    font-size: 14px;
+    line-height: 22px;
   }
 }
