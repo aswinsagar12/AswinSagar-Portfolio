@@ -1,4 +1,4 @@
-﻿import React, { useRef } from "react";
+import React, { useRef } from "react";
 import useScrollReveal from "../hooks/useScrollReveal";
 
 const experiences = [
