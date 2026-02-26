@@ -1,5 +1,24 @@
 import React from "react";
 
+const experiences = [
+  {
+    num: "01",
+    title: ["Site Reliability", "Engineer"],
+    company: "GARDEN CITY GAMES",
+    location: "Bengaluru, India",
+    years: "2025 — Present",
+    desc: "Reliability engineering, observability, incident response.",
+  },
+  {
+    num: "02",
+    title: ["DevOps & Cloud", "Engineer"],
+    company: "HCLTECH",
+    location: "Bengaluru, India",
+    years: "2022 — 2025",
+    desc: "Automation, cloud infrastructure, CI/CD, Kubernetes.",
+  },
+];
+
 const Experience = () => {
   return (
     <section className="experience" id="experience" data-scroll-section>
@@ -7,23 +26,30 @@ const Experience = () => {
         <span className="section__number">04</span>
         <h2 className="section-title">Experience</h2>
       </div>
-      <div className="experience__list">
-        <div className="experience__item">
-          <div className="experience__num">01</div>
-          <div className="experience__role">
-            Site Reliability Engineer
-            <span className="experience__company">Garden City Games</span>
+      <div className="experience__rows">
+        {experiences.map((item, index) => (
+          <div
+            className="experience__row io-reveal"
+            style={{ "--delay": `${index * 120}ms` }}
+            key={item.num}
+          >
+            <div className="experience__rule" />
+            <div className="experience__grid">
+              <div className="experience__num">{item.num}</div>
+              <div className="experience__title">
+                <span className="experience__heading">{item.title[0]}</span>
+                <span className="experience__heading">{item.title[1]}</span>
+                <span className="experience__desc">{item.desc}</span>
+              </div>
+              <div className="experience__meta">
+                <span className="experience__company">{item.company}</span>
+                <span className="experience__location">{item.location}</span>
+              </div>
+              <div className="experience__year">{item.years}</div>
+            </div>
+            <div className="experience__rule" />
           </div>
-          <div className="experience__details">2025 — Present</div>
-        </div>
-        <div className="experience__item">
-          <div className="experience__num">02</div>
-          <div className="experience__role">
-            DevOps & Cloud Engineer
-            <span className="experience__company">HCLTech</span>
-          </div>
-          <div className="experience__details">2022 — 2025</div>
-        </div>
+        ))}
       </div>
     </section>
   );

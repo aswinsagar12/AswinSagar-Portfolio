@@ -18,10 +18,12 @@ const Testimonials = () => {
         <span className="section__number">06</span>
         <h2 className="section-title">Testimonials</h2>
       </div>
-      <div className="testimonials__grid">
+      <div className="testimonials__grid io-reveal">
         {(testimonials.length ? testimonials : []).map((item) => (
           <div className="testimonial-card" key={item._id || item.name}>
-            <div className="testimonial-card__quote">{item.feedback}</div>
+            <div className="testimonial-card__quote soft-text">
+              {item.feedback}
+            </div>
             <div className="testimonial-card__author">
               {item.name} · {item.company}
             </div>

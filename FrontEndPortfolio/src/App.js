@@ -1,8 +1,6 @@
 import React, { useEffect } from "react";
 import Lenis from "lenis";
 import LocomotiveScroll from "locomotive-scroll";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Navbar,
   SocialMedia,
@@ -19,7 +17,19 @@ import {
 
 const App = () => {
   useEffect(() => {
-    gsap.registerPlugin(ScrollTrigger);
+    const cursor = document.querySelector(".cursor");
+    const onMove = (event) => {
+      if (!cursor) return;
+      cursor.style.left = `${event.clientX}px`;
+      cursor.style.top = `${event.clientY}px`;
+    };
+
+    const onDown = () => cursor?.classList.add("cursor--active");
+    const onUp = () => cursor?.classList.remove("cursor--active");
+
+    window.addEventListener("mousemove", onMove);
+    window.addEventListener("mousedown", onDown);
+    window.addEventListener("mouseup", onUp);
 
     const lenis = new Lenis({
       smooth: true,
@@ -52,39 +62,37 @@ const App = () => {
 
     lenis.on("scroll", onScroll);
 
-    gsap.from(".hero__letter", {
-      y: 20,
-      opacity: 0,
-      duration: 1.2,
-      ease: "power3.out",
-      stagger: 0.03,
-      delay: 0.2,
-    });
+    const revealItems = document.querySelectorAll(".io-reveal");
+    const contactStack = document.querySelector(".contact__stack");
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("is-visible");
+          }
+        });
+      },
+      { threshold: 0.15 }
+    );
 
-    gsap.utils.toArray(".section-title").forEach((title) => {
-      gsap.from(title, {
-        scrollTrigger: {
-          trigger: title,
-          start: "top 80%",
-        },
-        y: 20,
-        opacity: 0,
-        duration: 0.8,
-        ease: "power3.out",
-      });
-    });
+    revealItems.forEach((item) => observer.observe(item));
+    if (contactStack) observer.observe(contactStack);
 
     return () => {
       cancelAnimationFrame(rafId);
       lenis.off("scroll", onScroll);
       lenis.destroy();
       loco.destroy();
-      ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
+      observer.disconnect();
+      window.removeEventListener("mousemove", onMove);
+      window.removeEventListener("mousedown", onDown);
+      window.removeEventListener("mouseup", onUp);
     };
   }, []);
 
   return (
     <div className="app" data-scroll-container>
+      <div className="cursor" aria-hidden="true" />
       <Navbar />
       <SocialMedia />
       <Hero />
