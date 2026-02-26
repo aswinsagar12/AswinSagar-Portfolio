@@ -1,17 +1,15 @@
-@import url("http://fonts.cdnfonts.com/css/walytime");
-@import url(//db.onlinewebfonts.com/c/762c72a2791c9d3eadc7e3b6b935aa69?family=SF+UI+Display);
 .app__navbar {
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 1rem 2rem;
-  background: rgba(255, 255, 255, 0.25);
-  backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  position: fixed;
+  padding: 1.75rem 3.5vw 1rem;
+  background: transparent;
+  position: absolute;
+  top: 0;
+  left: 0;
   z-index: 2;
+  font-family: var(--font-base);
 }
 
 .app__navbar-logo {
@@ -20,23 +18,12 @@
   align-items: center;
 
   .name-logo {
-    color: var(--gray-color);
+    color: var(--black-color);
     text-transform: uppercase;
-    font-weight: 500;
-    margin-top: 7px;
+    font-weight: 400;
+    font-size: 16px;
+    letter-spacing: 0.08em;
     cursor: pointer;
-    &:hover {
-      color: var(--secondary-color);
-    }
-  }
-
-  img {
-    width: 90px;
-    height: 20px;
-    @media screen and (min-width: 2000px) {
-      width: 180px;
-      height: 40px;
-    }
   }
 }
 
@@ -48,31 +35,20 @@
   list-style: none;
 
   li {
-    margin: 0 1rem;
+    margin: 0 1.5rem;
     cursor: pointer;
     flex-direction: column;
 
-    div {
-      width: 5px;
-      height: 5px;
-      background: transparent;
-      border-radius: 50%;
-      margin-bottom: 4px;
-    }
     a {
-      color: var(--gray-color);
+      color: rgba(255, 255, 255, 0.85);
       text-decoration: none;
-      flex-direction: column;
       text-transform: uppercase;
-      font-weight: 500;
-      transition: all 0.3s ease-in-out;
+      font-weight: 400;
+      font-size: 14px;
+      letter-spacing: 0.12em;
+      transition: color 0.2s ease;
       &:hover {
-        color: var(--secondary-color);
-      }
-    }
-    &:hover {
-      div {
-        background: var(--secondary-color);
+        color: var(--white-color);
       }
     }
   }
@@ -80,6 +56,17 @@
     display: none;
   }
 }
+
+.app__navbar-meta {
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  @media screen and (max-width: 900px) {
+    display: none;
+  }
+}
+
 .app__navbar-menu {
   width: 35px;
   height: 35px;
@@ -88,12 +75,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--secondary-color);
+  background-color: rgba(255, 255, 255, 0.1);
+
   svg {
     width: 70%;
     height: 70%;
     color: var(--white-color);
   }
+
   div {
     position: fixed;
     top: 0;
@@ -107,16 +96,13 @@
     justify-content: flex-end;
     align-items: flex-end;
     flex-direction: column;
-    background: url("../../assets/bgWhite.png");
-    background-color: var(--white-color);
-    background-size: cover;
-    background-repeat: repeat;
-    box-shadow: 0 0 20px rgba(168, 168, 168, 0.15);
+    background-color: #2c37da;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.25);
 
     svg {
       width: 35px;
       height: 35px;
-      color: var(--secondary-color);
+      color: var(--white-color);
       margin: 0.5rem 1rem;
     }
     ul {
@@ -133,14 +119,15 @@
       li {
         margin: 1rem;
         a {
-          color: var(--gray-color);
+          color: rgba(255, 255, 255, 0.85);
           text-decoration: none;
           font-size: 1rem;
           text-transform: uppercase;
-          font-weight: 500;
+          font-weight: 400;
+          letter-spacing: 0.12em;
           transition: all 0.3s ease-in-out;
           &:hover {
-            color: var(--secondary-color);
+            color: var(--white-color);
           }
         }
       }

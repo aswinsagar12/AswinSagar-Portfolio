@@ -1,10 +1,44 @@
-.app {
+  .app {
     background-color: var(--primary-color);
     font-family: var(--font-base);
+    min-height: 100vh;
+  }
+
+  .outline-hover {
+    color: var(--black-color);
+    transition: color 0.2s ease, -webkit-text-stroke 0.2s ease, text-shadow 0.2s ease;
+  }
+
+  .outline-hover:hover {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--black-color);
+    text-stroke: 1px var(--black-color);
+  }
+
+  @supports not (-webkit-text-stroke: 1px black) {
+    .outline-hover:hover {
+      color: var(--black-color);
+      text-shadow:
+        1px 0 var(--black-color),
+        -1px 0 var(--black-color),
+        0 1px var(--black-color),
+        0 -1px var(--black-color);
+    }
   }
 
   .app__whitebg {
-    background-color: var(--white-color);
+    background-color: var(--primary-color);
+  }
+
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    border: 0;
   }
 
   .app__primarybg {
@@ -57,6 +91,7 @@
     text-align: center;
     color: var(--black-color);
     text-transform: capitalize;
+    @extend .outline-hover;
 
     span {
       color: var(--secondary-color);
@@ -102,16 +137,18 @@
     justify-content: flex-end;
     align-items: center;
     flex-direction: column;
-
-    padding: 2.5rem;
+    position: fixed;
+    left: 2.5rem;
+    bottom: 2.5rem;
+    z-index: 2;
 
     div {
       width: 40px;
       height: 40px;
       border-radius: 50%;
-      background-color: var(--white-color);
+      background-color: transparent;
       margin: 0.25rem 0;
-      border: 1px solid var(--lightGray-color);
+      border: 1px solid rgba(255, 255, 255, 0.5);
 
       display: flex;
       justify-content: center;
@@ -122,15 +159,15 @@
       svg {
         width: 15px;
         height: 15px;
-        color: var(--gray-color);
+        color: var(--white-color);
       }
 
       &:hover {
-        background-color: var(--secondary-color);
-        border-color: var(--secondary-color);
+        background-color: var(--white-color);
+        border-color: var(--white-color);
 
         svg {
-          color: var(--white-color);
+          color: var(--primary-color);
         }
       }
 

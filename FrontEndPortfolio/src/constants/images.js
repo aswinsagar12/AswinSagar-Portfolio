@@ -17,12 +17,11 @@ import profile from "../assets/profile.png";
 import circle from "../assets/circle.svg";
 import logo from "../assets/logo.png";
 import HCLTech from "../assets/hcltech.png";
-import kubernetes from "../assets/kubernetes.png"
-import docker from "../assets/docker.png"
-import google from "../assets/google.png"
+import kubernetes from "../assets/kubernetes.png";
+import docker from "../assets/docker.png";
+import google from "../assets/google.png";
 
-
-export default {
+const images = {
   email,
   mobile,
   api,
@@ -47,3 +46,5 @@ export default {
   google
 
 };
+
+export default images;
