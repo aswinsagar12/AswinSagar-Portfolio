@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useMemo, useRef, useState, useEffect } from "react";
 
 const quotes = [
   "\"It works on my machine\" - Every dev ever",
@@ -11,73 +11,155 @@ const quotes = [
   "\"Alert fatigue level: coffee is now infrastructure.\"",
 ];
 
+const getInitialPos = () => {
+  const w = typeof window !== "undefined" ? window.innerWidth : 1280;
+  const mobile = w < 768;
+  if (mobile) return { x: 16, y: 20 };
+  return { x: Math.max(w - 320, 24), y: 100 };
+};
+
 export default function QuoteWidget() {
-  const [pos, setPos] = useState(() => {
-    const w = typeof window !== "undefined" ? window.innerWidth : 1280;
-    const mobile = w <= 768;
-    return mobile ? { x: 12, y: 18 } : { x: Math.max(w - 320, 24), y: 100 };
-  });
+  const initialPos = useMemo(() => getInitialPos(), []);
+  const [pos, setPos] = useState(initialPos);
+  const posRef = useRef(initialPos);
   const [quoteIdx] = useState(() => Math.floor(Math.random() * quotes.length));
   const isDragging = useRef(false);
   const offset = useRef({ x: 0, y: 0 });
+  const velocity = useRef({ x: 0, y: 0 });
+  const lastPos = useRef(initialPos);
+  const momentumId = useRef(0);
   const cardRef = useRef(null);
 
   const clampPos = (x, y) => {
-    const width = cardRef.current?.offsetWidth || 240;
-    const height = cardRef.current?.offsetHeight || 120;
-    const minX = 8;
-    const minY = 8;
-    const maxX = Math.max(minX, window.innerWidth - width - 8);
-    const maxY = Math.max(minY, window.innerHeight - height - 8);
+    const w = cardRef.current?.offsetWidth || 240;
+    const h = cardRef.current?.offsetHeight || 120;
     return {
-      x: Math.min(Math.max(x, minX), maxX),
-      y: Math.min(Math.max(y, minY), maxY),
+      x: Math.max(0, Math.min(window.innerWidth - w, x)),
+      y: Math.max(0, Math.min(window.innerHeight - h, y)),
     };
+  };
+
+  const setBothPos = (next) => {
+    posRef.current = next;
+    setPos(next);
+  };
+
+  const stopMomentum = () => {
+    if (momentumId.current) {
+      cancelAnimationFrame(momentumId.current);
+      momentumId.current = 0;
+    }
+  };
+
+  const applyMomentum = () => {
+    if (Math.abs(velocity.current.x) < 0.5 && Math.abs(velocity.current.y) < 0.5) {
+      momentumId.current = 0;
+      return;
+    }
+    const next = clampPos(
+      posRef.current.x + velocity.current.x,
+      posRef.current.y + velocity.current.y
+    );
+    velocity.current.x *= 0.88;
+    velocity.current.y *= 0.88;
+    setBothPos(next);
+    momentumId.current = requestAnimationFrame(applyMomentum);
   };
 
   const onMouseDown = (e) => {
+    stopMomentum();
     isDragging.current = true;
-    offset.current = { x: e.clientX - pos.x, y: e.clientY - pos.y };
+    offset.current = { x: e.clientX - posRef.current.x, y: e.clientY - posRef.current.y };
     e.preventDefault();
   };
 
-  const onTouchStart = (e) => {
-    const t = e.touches[0];
-    if (!t) return;
-    isDragging.current = true;
-    offset.current = { x: t.clientX - pos.x, y: t.clientY - pos.y };
-  };
-
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => {
-    const onMove = (e) => {
+    const mobile = window.innerWidth < 768;
+    const onMouseMove = (e) => {
       if (!isDragging.current) return;
-      setPos(clampPos(e.clientX - offset.current.x, e.clientY - offset.current.y));
+      const next = clampPos(e.clientX - offset.current.x, e.clientY - offset.current.y);
+      if (mobile) {
+        velocity.current = {
+          x: (next.x - lastPos.current.x) * 0.3,
+          y: (next.y - lastPos.current.y) * 0.3,
+        };
+      }
+      lastPos.current = next;
+      setBothPos(next);
     };
+
+    const onMouseUp = () => {
+      if (!isDragging.current) return;
+      isDragging.current = false;
+      if (mobile) {
+        stopMomentum();
+        momentumId.current = requestAnimationFrame(applyMomentum);
+      }
+    };
+
+    const onResize = () => {
+      const next = clampPos(posRef.current.x, posRef.current.y);
+      lastPos.current = next;
+      setBothPos(next);
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
+    window.addEventListener("resize", onResize);
+    return () => {
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
+      window.removeEventListener("resize", onResize);
+      if (mobile) stopMomentum();
+    };
+  }, []);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return undefined;
+
+    const onTouchStart = (e) => {
+      stopMomentum();
+      isDragging.current = true;
+      offset.current = {
+        x: e.touches[0].clientX - posRef.current.x,
+        y: e.touches[0].clientY - posRef.current.y,
+      };
+    };
+
     const onTouchMove = (e) => {
       if (!isDragging.current) return;
-      const t = e.touches[0];
-      if (!t) return;
-      setPos(clampPos(t.clientX - offset.current.x, t.clientY - offset.current.y));
-    };
-    const onUp = () => {
-      isDragging.current = false;
-    };
-    const onResize = () => {
-      setPos((prev) => clampPos(prev.x, prev.y));
+      e.preventDefault();
+      e.stopPropagation();
+      const next = clampPos(
+        e.touches[0].clientX - offset.current.x,
+        e.touches[0].clientY - offset.current.y
+      );
+      velocity.current = {
+        x: (next.x - lastPos.current.x) * 0.3,
+        y: (next.y - lastPos.current.y) * 0.3,
+      };
+      lastPos.current = next;
+      setBothPos(next);
     };
 
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseup", onUp);
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
-    window.addEventListener("touchend", onUp);
-    window.addEventListener("resize", onResize);
+    const onTouchEnd = () => {
+      if (!isDragging.current) return;
+      isDragging.current = false;
+      stopMomentum();
+      momentumId.current = requestAnimationFrame(applyMomentum);
+    };
+
+    el.addEventListener("touchstart", onTouchStart, { passive: true });
+    el.addEventListener("touchmove", onTouchMove, { passive: false });
+    el.addEventListener("touchend", onTouchEnd, { passive: true });
 
     return () => {
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseup", onUp);
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", onUp);
-      window.removeEventListener("resize", onResize);
+      el.removeEventListener("touchstart", onTouchStart);
+      el.removeEventListener("touchmove", onTouchMove);
+      el.removeEventListener("touchend", onTouchEnd);
     };
   }, []);
 
@@ -86,7 +168,6 @@ export default function QuoteWidget() {
       ref={cardRef}
       className="widget-card no-select"
       onMouseDown={onMouseDown}
-      onTouchStart={onTouchStart}
       style={{
         position: "absolute",
         left: pos.x,
@@ -107,7 +188,14 @@ export default function QuoteWidget() {
         lineHeight: 1.6,
       }}
     >
-      <div style={{ fontSize: "11px", marginBottom: "8px", color: "rgba(255,255,255,0.55)", letterSpacing: "0.14em" }}>
+      <div
+        style={{
+          fontSize: "11px",
+          marginBottom: "8px",
+          color: "rgba(255,255,255,0.55)",
+          letterSpacing: "0.14em",
+        }}
+      >
         ON-CALL MEMO
       </div>
       {quotes[quoteIdx]}

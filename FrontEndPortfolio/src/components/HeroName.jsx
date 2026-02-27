@@ -5,6 +5,7 @@ const secondLine = "SAGAR".split("");
 
 function HeroName() {
   const refs = useRef([]);
+  const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
 
   useEffect(() => {
     const handler = (e) => {
@@ -33,16 +34,18 @@ function HeroName() {
         alignItems: "center",
         justifyContent: "center",
         pointerEvents: "none",
+        paddingBottom: isMobile ? "10vh" : 0,
       }}
     >
       <h1
         style={{
-          fontSize: "clamp(3.2rem, 11vw, 8.8rem)",
+          fontSize: isMobile ? "clamp(4rem, 16vw, 8rem)" : "clamp(3.2rem, 11vw, 8.8rem)",
           fontWeight: 900,
           color: "#fff",
-          letterSpacing: "-0.01em",
+          letterSpacing: isMobile ? "-0.02em" : "-0.01em",
           lineHeight: 1,
           textAlign: "center",
+          margin: 0,
         }}
       >
         {firstLine.map((l, i) => (
