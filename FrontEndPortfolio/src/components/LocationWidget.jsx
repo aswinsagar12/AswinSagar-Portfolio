@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
 
 const getInitialPos = () => {
   const w = typeof window !== "undefined" ? window.innerWidth : 1280;
@@ -172,6 +173,9 @@ export default function LocationWidget() {
       className="widget-card no-select"
       onMouseDown={onMouseDown}
       style={{
+        ...(typeof window !== "undefined" && window.innerWidth < 768
+          ? { minWidth: "126px", padding: "10px 12px" }
+          : {}),
         position: "absolute",
         left: pos.x,
         top: pos.y,
@@ -190,10 +194,23 @@ export default function LocationWidget() {
       }}
     >
       <div style={{ display: "flex", alignItems: "center", gap: "8px", marginBottom: "4px" }}>
-        <span style={{ fontSize: "14px" }}>@</span>
-        <span style={{ fontSize: "13px", fontWeight: 600 }}>Bangalore, India</span>
+        <span style={{ fontSize: typeof window !== "undefined" && window.innerWidth < 768 ? "11px" : "14px" }}>@</span>
+        <span
+          style={{
+            fontSize: typeof window !== "undefined" && window.innerWidth < 768 ? "10px" : "13px",
+            fontWeight: 600,
+          }}
+        >
+          Bangalore, India
+        </span>
       </div>
-      <div style={{ fontSize: "12px", color: "rgba(255,255,255,0.5)", paddingLeft: "22px" }}>
+      <div
+        style={{
+          fontSize: typeof window !== "undefined" && window.innerWidth < 768 ? "9px" : "12px",
+          color: "rgba(255,255,255,0.5)",
+          paddingLeft: typeof window !== "undefined" && window.innerWidth < 768 ? "14px" : "22px",
+        }}
+      >
         {time} IST
       </div>
     </div>

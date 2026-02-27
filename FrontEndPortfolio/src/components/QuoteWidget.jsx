@@ -1,4 +1,5 @@
 import React, { useMemo, useRef, useState, useEffect } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
 
 const quotes = [
   "\"It works on my machine\" - Every dev ever",
@@ -169,6 +170,9 @@ export default function QuoteWidget() {
       className="widget-card no-select"
       onMouseDown={onMouseDown}
       style={{
+        ...(typeof window !== "undefined" && window.innerWidth < 768
+          ? { maxWidth: "154px", padding: "11px 12px", fontSize: "10px", lineHeight: 1.45 }
+          : {}),
         position: "absolute",
         left: pos.x,
         top: pos.y,

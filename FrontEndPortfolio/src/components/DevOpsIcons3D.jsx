@@ -76,8 +76,8 @@ export default function DevOpsIcons3D() {
     scene.add(ambient, key, fill);
 
     const isMobile = window.innerWidth <= 768;
-    const scaleFactor = isMobile ? 0.72 : 1;
-    const spreadFactor = isMobile ? 1.0 : 1.5;
+    const scaleFactor = isMobile ? 0.84 : 1;
+    const spreadFactor = isMobile ? 1.1 : 1.5;
 
     const items = iconConfig.map((cfg, index) => {
       const texture = makeIconTexture(cfg.label);
@@ -149,7 +149,7 @@ export default function DevOpsIcons3D() {
         }
       }
 
-      if (minDist < 150 && minIndex >= 0) {
+      if (minDist < (isMobile ? 190 : 150) && minIndex >= 0) {
         window.dispatchEvent(new CustomEvent("letterShake", { detail: { index: minIndex } }));
       }
     };

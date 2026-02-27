@@ -2,22 +2,54 @@ import React, { useEffect, useRef } from "react";
 
 const firstLine = "ASWIN".split("");
 const secondLine = "SAGAR".split("");
+const allLetters = [...firstLine, ...secondLine];
 
 function HeroName() {
   const refs = useRef([]);
+  const fillDirectionRef = useRef(allLetters.map((_, i) => (i < firstLine.length ? -1 : 1)));
+  const hitCountRef = useRef(allLetters.map(() => 0));
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
+  const [fills, setFills] = React.useState(() =>
+    allLetters.map((_, i) => (i < firstLine.length ? 1 : 0))
+  );
 
   useEffect(() => {
     const handler = (e) => {
       const idx = e?.detail?.index;
       const el = refs.current[idx];
-      if (!el) return;
+      if (!el || typeof idx !== "number") return;
+      const direction = fillDirectionRef.current[idx] || 1;
+      el.setAttribute("data-flow", direction > 0 ? "fill" : "drain");
       el.classList.remove("letter-shake");
       void el.offsetWidth;
       el.classList.add("letter-shake");
       window.setTimeout(() => {
         el.classList.remove("letter-shake");
       }, 500);
+
+      setFills((prev) => {
+        if (idx < 0 || idx >= prev.length) return prev;
+        const next = [...prev];
+        const dir = fillDirectionRef.current[idx] || 1;
+        const priorHits = hitCountRef.current[idx] || 0;
+        const step = priorHits === 0 ? 0.1 : 0.2;
+        let value = next[idx] + dir * step;
+
+        if (value >= 1) {
+          value = 1;
+          fillDirectionRef.current[idx] = -1;
+          hitCountRef.current[idx] = 0;
+        } else if (value <= 0) {
+          value = 0;
+          fillDirectionRef.current[idx] = 1;
+          hitCountRef.current[idx] = 0;
+        } else {
+          hitCountRef.current[idx] = priorHits + 1;
+        }
+
+        next[idx] = Number(value.toFixed(3));
+        return next;
+      });
     };
     window.addEventListener("letterShake", handler);
     return () => window.removeEventListener("letterShake", handler);
@@ -34,15 +66,17 @@ function HeroName() {
         alignItems: "center",
         justifyContent: "center",
         pointerEvents: "none",
-        paddingBottom: isMobile ? "10vh" : 0,
+        paddingTop: isMobile ? "16vh" : 0,
+        paddingBottom: 0,
       }}
     >
       <h1
         style={{
-          fontSize: isMobile ? "clamp(4rem, 16vw, 8rem)" : "clamp(3.2rem, 11vw, 8.8rem)",
-          fontWeight: 900,
+          fontSize: isMobile ? "clamp(4.4rem, 18vw, 8.5rem)" : "clamp(3.2rem, 11vw, 8.8rem)",
+          fontFamily: "'HK Grotesk Wide', Outfit, Arial, sans-serif",
+          fontWeight: 800,
           color: "#fff",
-          letterSpacing: isMobile ? "-0.02em" : "-0.01em",
+          letterSpacing: isMobile ? "0.14em" : "0.1em",
           lineHeight: 1,
           textAlign: "center",
           margin: 0,
@@ -55,8 +89,9 @@ function HeroName() {
               refs.current[i] = el;
             }}
             data-letter-index={i}
-            className="hero-name-letter"
-            style={{ display: "inline-block" }}
+            data-char={l}
+            className="hero-name-letter hero-name-letter--water"
+            style={{ display: "inline-block", "--fill": fills[i] }}
           >
             {l}
           </span>
@@ -71,8 +106,9 @@ function HeroName() {
                 refs.current[idx] = el;
               }}
               data-letter-index={idx}
-              className="hero-name-letter"
-              style={{ display: "inline-block" }}
+              data-char={l}
+              className="hero-name-letter hero-name-letter--water"
+              style={{ display: "inline-block", "--fill": fills[idx] }}
             >
               {l}
             </span>

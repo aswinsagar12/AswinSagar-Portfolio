@@ -1,3 +1,19 @@
+@font-face {
+  font-family: "HK Grotesk Wide";
+  src: url("../assets/fonts/HKGroteskWide-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HK Grotesk Wide";
+  src: url("../assets/fonts/HKGroteskWide-ExtraBold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --bg: #000000;
   --text: #ffffff;
@@ -11,7 +27,6 @@
     "avenir next", avenir, "segoe ui", "helvetica neue", helvetica, Cantarell,
     Ubuntu, roboto, noto, arial, sans-serif;
 }
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -601,6 +616,120 @@ a {
   display: inline-block;
 }
 
+.hero-name-letter {
+  color: #ffffff;
+}
+
+.hero-name-letter--water {
+  position: relative;
+  color: transparent;
+  -webkit-text-stroke: 1.8px rgba(255, 255, 255, 0.95);
+  text-stroke: 1.8px rgba(255, 255, 255, 0.95);
+  --fill: 0;
+  contain: paint;
+  isolation: isolate;
+}
+
+.hero-name-letter--water::before {
+  content: attr(data-char);
+  position: absolute;
+  inset: 0;
+  color: #ffffff;
+  clip-path: inset(calc((1 - var(--fill)) * 100%) 0 0 0);
+  transition: clip-path 520ms cubic-bezier(0.18, 0.74, 0.24, 1);
+  will-change: clip-path;
+}
+
+.hero-name-letter--water::after {
+  content: attr(data-char);
+  position: absolute;
+  inset: 0;
+  color: transparent;
+  background: linear-gradient(
+    95deg,
+    rgba(255, 255, 255, 0.1) 0%,
+    rgba(255, 255, 255, 0.95) 35%,
+    rgba(255, 255, 255, 0.2) 52%,
+    rgba(255, 255, 255, 0.85) 70%,
+    rgba(255, 255, 255, 0.08) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  background-size: 180% 100%;
+  background-position: 0% 50%;
+  clip-path: inset(calc((1 - var(--fill)) * 100%) 0 0 0);
+  opacity: 0;
+  transform: none;
+  pointer-events: none;
+  will-change: background-position, opacity, clip-path;
+}
+
+.hero-name-letter--water.letter-shake::after {
+  opacity: 0.9;
+}
+
+.hero-name-letter--water[data-flow="fill"].letter-shake::after {
+  animation: heroLiquidFillPulse 560ms cubic-bezier(0.16, 0.82, 0.22, 1) 1;
+}
+
+.hero-name-letter--water[data-flow="drain"].letter-shake::after {
+  animation: heroLiquidDrainPulse 560ms cubic-bezier(0.16, 0.82, 0.22, 1) 1;
+}
+
+.hero-name-letter--outline {
+  color: transparent;
+  -webkit-text-stroke: 1.8px rgba(255, 255, 255, 0.95);
+  text-stroke: 1.8px rgba(255, 255, 255, 0.95);
+}
+
+@keyframes heroLiquidFillPulse {
+  0% {
+    background-position: 0% 50%;
+    opacity: 0.2;
+  }
+  28% {
+    background-position: 70% 50%;
+    opacity: 0.95;
+  }
+  56% {
+    background-position: 35% 50%;
+    opacity: 0.75;
+  }
+  100% {
+    background-position: 100% 50%;
+    opacity: 0;
+  }
+}
+
+@keyframes heroLiquidDrainPulse {
+  0% {
+    background-position: 100% 50%;
+    opacity: 0.2;
+  }
+  28% {
+    background-position: 30% 50%;
+    opacity: 0.95;
+  }
+  56% {
+    background-position: 65% 50%;
+    opacity: 0.75;
+  }
+  100% {
+    background-position: 0% 50%;
+    opacity: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .hero-name-letter--water::after {
+    display: none;
+  }
+
+  .hero-name-letter--water::before {
+    transition-duration: 280ms;
+  }
+}
+
 .no-select {
   user-select: none;
   -webkit-user-select: none;
@@ -701,4 +830,3 @@ a {
     max-width: calc(100vw - 24px);
   }
 }
-

@@ -26,6 +26,7 @@ const ROUTE_TO_SECTION = {
   "/creative": "creative",
   "/testimonials": "testimonials",
   "/test": "testimonials",
+  "/moments": "moments",
   "/projects": "moments",
   "/work": "moments",
   "/contact": "contact",

@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+/* eslint-disable react-hooks/exhaustive-deps */
 
 const COMMANDS = {
   whoami: () => "aswin - sre @ aswinsagar.com",
@@ -6,7 +7,7 @@ const COMMANDS = {
   uptime: () => `up ${Math.floor(Math.random() * 999)} days, running strong`,
   echo: (args) => args || "",
   help: () =>
-    "commands: whoami, date, uptime, echo [text], clear, skills, about, experience, creative, testimonials, test, projects, work, contact, home, mail, linkedin, github, hello, pwd, ls",
+    "commands: whoami, date, uptime, echo [text], clear, skills, about, experience, creative, testimonials, test, moments, contact, home, mail, linkedin, github, hello, pwd, ls",
   skills: () =>
     "aws\ndocker\nkubernetes\nterraform\ngcp\nlinux\npython\nnodejs\ngrafana\nprometheus\nci/cd",
   clear: () => "__CLEAR__",
@@ -23,8 +24,7 @@ const SECTION_ALIASES = {
   creative: "creative",
   testimonials: "testimonials",
   test: "testimonials",
-  projects: "moments",
-  work: "moments",
+  moments: "moments",
   contact: "contact",
 };
 
@@ -38,7 +38,7 @@ const getInitialPos = () => {
   const w = typeof window !== "undefined" ? window.innerWidth : 1280;
   const h = typeof window !== "undefined" ? window.innerHeight : 900;
   const mobile = w < 768;
-  if (mobile) return { x: 16, y: h - 260 };
+  if (mobile) return { x: 16, y: h - 210 };
   return { x: 120, y: Math.max(h - 280, 320) };
 };
 
@@ -230,7 +230,7 @@ export default function TerminalWidget() {
         creative: "/creative",
         testimonials: name === "test" ? "/test" : "/testimonials",
         contact: "/contact",
-        moments: name === "work" ? "/work" : "/projects",
+        moments: "/moments",
       };
       const nextPath = pathBySection[targetId] || `/${name}`;
       setHistory((prev) => [
@@ -340,7 +340,7 @@ export default function TerminalWidget() {
         left: pos.x,
         top: pos.y,
         zIndex: 23,
-        width: isMobile ? `${viewport.w - 32}px` : "min(288px, calc(100vw - 24px))",
+        width: isMobile ? "252px" : "min(288px, calc(100vw - 24px))",
         cursor: "grab",
         userSelect: "none",
         touchAction: "none",
@@ -349,7 +349,7 @@ export default function TerminalWidget() {
         borderRadius: "12px",
         overflow: "hidden",
         fontFamily: "monospace",
-        fontSize: isMobile ? "11px" : "12px",
+        fontSize: isMobile ? "10px" : "12px",
         boxShadow: "0 20px 60px rgba(0,0,0,0.8)",
       }}
     >
@@ -376,7 +376,7 @@ export default function TerminalWidget() {
         ref={bodyRef}
         className="terminal-body"
         style={{
-          height: isMobile ? "120px" : "135px",
+          height: isMobile ? "84px" : "135px",
           overflowY: "auto",
           overflowX: "hidden",
           wordBreak: "break-all",
@@ -433,7 +433,7 @@ export default function TerminalWidget() {
             outline: "none",
             color: "#fff",
             fontFamily: "monospace",
-            fontSize: isMobile ? "11px" : "12px",
+            fontSize: isMobile ? "10px" : "12px",
             flex: 1,
             caretColor: "#00ff41",
           }}
