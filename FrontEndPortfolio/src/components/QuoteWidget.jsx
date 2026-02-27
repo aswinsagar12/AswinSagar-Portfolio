@@ -15,7 +15,7 @@ export default function QuoteWidget() {
   const [pos, setPos] = useState(() => {
     const w = typeof window !== "undefined" ? window.innerWidth : 1280;
     const mobile = w <= 768;
-    return mobile ? { x: 16, y: 220 } : { x: Math.max(w - 320, 24), y: 100 };
+    return mobile ? { x: 12, y: 18 } : { x: Math.max(w - 320, 24), y: 100 };
   });
   const [quoteIdx] = useState(() => Math.floor(Math.random() * quotes.length));
   const isDragging = useRef(false);
@@ -91,7 +91,7 @@ export default function QuoteWidget() {
         position: "absolute",
         left: pos.x,
         top: pos.y,
-        zIndex: 20,
+        zIndex: 24,
         cursor: "grab",
         userSelect: "none",
         touchAction: "none",

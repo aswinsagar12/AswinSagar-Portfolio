@@ -6,12 +6,12 @@ export default function LocationWidget() {
     const w = typeof window !== "undefined" ? window.innerWidth : 1280;
     const h = typeof window !== "undefined" ? window.innerHeight : 900;
     const mobile = w <= 768;
-    const cardWidth = mobile ? 190 : 220;
+    if (mobile) {
+      return { x: 12, y: Math.max(330, Math.floor(h * 0.76)) };
+    }
+    const cardWidth = 220;
     const cardHeight = 92;
-    return {
-      x: Math.max(8, w - cardWidth - (mobile ? 10 : 16)),
-      y: Math.max(8, h - cardHeight - (mobile ? 84 : 20)),
-    };
+    return { x: Math.max(8, w - cardWidth - 16), y: Math.max(8, h - cardHeight - 20) };
   });
   const isDragging = useRef(false);
   const offset = useRef({ x: 0, y: 0 });
@@ -98,7 +98,7 @@ export default function LocationWidget() {
         position: "absolute",
         left: pos.x,
         top: pos.y,
-        zIndex: 20,
+        zIndex: 22,
         cursor: "grab",
         userSelect: "none",
         touchAction: "none",

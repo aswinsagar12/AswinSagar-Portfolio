@@ -40,7 +40,9 @@ export default function TerminalWidget() {
     const w = typeof window !== "undefined" ? window.innerWidth : 1280;
     const h = typeof window !== "undefined" ? window.innerHeight : 900;
     const mobile = w <= 768;
-    return mobile ? { x: 16, y: Math.max(h - 250, 380) } : { x: 120, y: Math.max(h - 280, 320) };
+    return mobile
+      ? { x: 12, y: Math.max(220, Math.floor(h * 0.52)) }
+      : { x: 120, y: Math.max(h - 280, 320) };
   });
   const [history, setHistory] = useState([
     { type: "output", text: "Welcome to aswinsagar-shell v1.0.0" },
@@ -259,7 +261,7 @@ export default function TerminalWidget() {
         position: "absolute",
         left: pos.x,
         top: pos.y,
-        zIndex: 20,
+        zIndex: 23,
         width: "min(288px, calc(100vw - 24px))",
         cursor: "grab",
         userSelect: "none",
