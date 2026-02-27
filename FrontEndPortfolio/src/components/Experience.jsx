@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import useScrollReveal from "../hooks/useScrollReveal";
+import RippleText from "./RippleText";
 
 const experiences = [
   {
@@ -65,7 +66,9 @@ const Experience = () => {
     <section className="experience" id="experience" data-scroll-section>
       <div className="section__header">
         <span className="section__number">04</span>
-        <h2 className="section-title reveal" ref={titleRef}>Experience</h2>
+        <RippleText tag="h2" className="section-title reveal" ref={titleRef}>
+          Experience
+        </RippleText>
       </div>
       <div className="experience__rows">
         {experiences.map((item, index) => (

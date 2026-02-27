@@ -1,5 +1,6 @@
 import React from "react";
 import { BsGithub, BsLinkedin, BsTwitter } from "react-icons/bs";
+import "./SocialMedia.css";
 
 const SocialMedia = () => {
   return (

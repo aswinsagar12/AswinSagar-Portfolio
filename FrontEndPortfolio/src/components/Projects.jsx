@@ -1,5 +1,6 @@
-﻿import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { client } from "../client";
+import RippleText from "./RippleText";
 
 const Projects = () => {
   const [projects, setProjects] = useState([]);
@@ -16,7 +17,9 @@ const Projects = () => {
     <section className="projects section" id="work" data-scroll-section>
       <div className="section__header">
         <span className="section__number">01</span>
-        <h2 className="section-title">Selected Work</h2>
+        <RippleText tag="h2" className="section-title">
+          Selected Work
+        </RippleText>
       </div>
       <div className="projects__list">
         {projects.length === 0 && (

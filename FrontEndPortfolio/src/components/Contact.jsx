@@ -1,5 +1,6 @@
 import React, { useRef } from "react";
 import useScrollReveal from "../hooks/useScrollReveal";
+import RippleText from "./RippleText";
 
 const Contact = () => {
   const titleRef = useRef(null);
@@ -13,9 +14,9 @@ const Contact = () => {
   return (
     <section className="contact section" id="contact" data-scroll-section>
       <div className="contact__content">
-        <h2 className="contact__title reveal" ref={titleRef}>
-          Let's Work Together
-        </h2>
+        <RippleText tag="h2" className="contact__title reveal" ref={titleRef}>
+          Let&apos;s Work Together
+        </RippleText>
         <a className="contact__email reveal" ref={emailRef} href="mailto:aswinsagar12@gmail.com">
           aswinsagar12@gmail.com
         </a>

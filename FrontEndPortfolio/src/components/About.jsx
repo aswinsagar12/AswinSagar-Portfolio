@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { client } from "../client";
 import useScrollReveal from "../hooks/useScrollReveal";
+import RippleText from "./RippleText";
 
 const About = () => {
   const [abouts, setAbouts] = useState([]);
@@ -26,7 +27,9 @@ const About = () => {
     <section className="about section" id="about" data-scroll-section>
       <div className="section__header">
         <span className="section__number">02</span>
-        <h2 className="section-title reveal" ref={titleRef}>About</h2>
+        <RippleText tag="h2" className="section-title reveal" ref={titleRef}>
+          About
+        </RippleText>
       </div>
       <div className="about__grid">
         <div className="about__left">

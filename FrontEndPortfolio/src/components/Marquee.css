@@ -1,0 +1,27 @@
+﻿.marquee {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  background: var(--bg);
+  color: var(--accent);
+}
+
+.marquee--inverted {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.marquee__track {
+  display: flex;
+  gap: 2rem;
+  width: max-content;
+  padding: 1.5rem 0;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  animation: marquee 20s linear infinite;
+}
+
+.marquee__track span {
+  white-space: nowrap;
+}

@@ -11,6 +11,7 @@ import {
   Skills,
   Creative,
   Testimonials,
+  PhotoGallery,
   Contact,
   Footer,
 } from "./components";
@@ -19,10 +20,13 @@ const App = () => {
   useEffect(() => {
     const lenis = new Lenis({
       smooth: true,
-      duration: 1.2,
-      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      duration: 0.85,
+      easing: (t) => 1 - Math.pow(1 - t, 3),
       orientation: "vertical",
       smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 1.05,
+      syncTouch: true,
     });
 
     let rafId;
@@ -58,12 +62,16 @@ const App = () => {
       <Navbar />
       <SocialMedia />
       <Hero />
-      <Marquee text="SITE RELIABILITY - OBSERVABILITY - DEVOPS - PLATFORM - " inverted />
+      <Marquee
+        text="SITE RELIABILITY · OBSERVABILITY · DEVOPS · PLATFORM ENGINEERING · KUBERNETES · CLOUD INFRASTRUCTURE · AUTOMATION · INCIDENT RESPONSE · PERFORMANCE · CI/CD"
+        inverted
+      />
       <About />
       <Skills />
       <Experience />
       <Creative />
       <Testimonials />
+      <PhotoGallery />
       <Contact />
       <Footer />
     </div>

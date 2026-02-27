@@ -1,126 +1,147 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import BatmanLogo3D from "./BatmanLogo3D";
+import FloatingGlassShards3D from "./FloatingGlassShards3D";
+import VolumetricDust3D from "./VolumetricDust3D";
+import OrbitingRings3D from "./OrbitingRings3D";
+import ProceduralRocks3D from "./ProceduralRocks3D";
+import EnergyFieldPlane3D from "./EnergyFieldPlane3D";
 import useScrollReveal from "../hooks/useScrollReveal";
+import "./Hero.css";
+
+const nameLines = ["ASWIN", "SAGAR"];
+const HERO_3D_MODE = "dust"; // Values: "batman", "glass", "dust", "rings", "rocks", "energy", "batman+dust"
 
 const Hero = () => {
-  const canvasRef = useRef(null);
   const captionRef = useRef(null);
+  const [hideIndicator, setHideIndicator] = useState(false);
+  const [logoFx, setLogoFx] = useState({ active: false, x: 0.5, y: 0.5 });
+  const pointerRafRef = useRef(0);
+  const pendingPointerRef = useRef({ x: 0.5, y: 0.5 });
 
   useScrollReveal(captionRef);
 
   useEffect(() => {
-    const canvas = canvasRef.current;
-    if (!canvas) return;
-    const ctx = canvas.getContext("2d");
-    let width = canvas.parentElement?.offsetWidth || window.innerWidth;
-    let height = canvas.parentElement?.offsetHeight || window.innerHeight;
-    const dpr = window.devicePixelRatio || 1;
-
-    const resize = () => {
-      width = canvas.parentElement?.offsetWidth || window.innerWidth;
-      height = canvas.parentElement?.offsetHeight || window.innerHeight;
-      canvas.width = width * dpr;
-      canvas.height = height * dpr;
-      canvas.style.width = `${width}px`;
-      canvas.style.height = `${height}px`;
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    const onScroll = () => {
+      setHideIndicator((window.scrollY || 0) > 50);
     };
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-    resize();
-    window.addEventListener("resize", resize);
-
-    const particles = Array.from({ length: 70 }, () => ({
-      x: Math.random() * width,
-      y: Math.random() * height,
-      vx: (Math.random() - 0.5) * 0.4,
-      vy: (Math.random() - 0.5) * 0.4,
-      r: 1 + Math.random(),
-    }));
-
-    let rafId;
-    const tick = () => {
-      ctx.clearRect(0, 0, width, height);
-      ctx.fillStyle = "rgba(255,255,255,0.3)";
-      for (let i = 0; i < particles.length; i += 1) {
-        const p = particles[i];
-        p.x += p.vx;
-        p.y += p.vy;
-        if (p.x < 0 || p.x > width) p.vx *= -1;
-        if (p.y < 0 || p.y > height) p.vy *= -1;
-        ctx.beginPath();
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-        ctx.fill();
-      }
-
-      for (let i = 0; i < particles.length; i += 1) {
-        for (let j = i + 1; j < particles.length; j += 1) {
-          const a = particles[i];
-          const b = particles[j];
-          const dx = a.x - b.x;
-          const dy = a.y - b.y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-          if (dist < 120) {
-            ctx.strokeStyle = `rgba(255,255,255,${0.3 * (1 - dist / 120)})`;
-            ctx.lineWidth = 1;
-            ctx.beginPath();
-            ctx.moveTo(a.x, a.y);
-            ctx.lineTo(b.x, b.y);
-            ctx.stroke();
-          }
-        }
-      }
-
-      rafId = requestAnimationFrame(tick);
-    };
-
-    rafId = requestAnimationFrame(tick);
-
+  useEffect(() => {
     return () => {
-      cancelAnimationFrame(rafId);
-      window.removeEventListener("resize", resize);
+      if (pointerRafRef.current) cancelAnimationFrame(pointerRafRef.current);
     };
   }, []);
 
-  return (
-    <section className="hero section" id="home" data-scroll-section>
-      <canvas ref={canvasRef} className="hero__canvas" />
-      <div className="hero__content is-visible">
-        <div className="hero__spacer" aria-hidden="true" />
-        <div className="hero__right">
-          <div className="hero__heading">
-            <h1 className="hero__title">
-              {["ASWIN", "SAGAR"].map((word, index) => (
-                <span
-                  className="hero__word"
-                  style={{ transitionDelay: `${0.1 + index * 0.1}s` }}
-                  key={word}
-                >
-                  <span className="hero__word-inner">{word}</span>
-                </span>
-              ))}
-            </h1>
-            <div className="hero__orbit" aria-hidden="true">
-              {"\u2197"}
+  const handleInteractionChange = useCallback((active) => {
+    setLogoFx((prev) => ({ ...prev, active }));
+  }, []);
+
+  const handlePointerMove = useCallback(({ x, y }) => {
+    pendingPointerRef.current = { x, y };
+    if (pointerRafRef.current) return;
+    pointerRafRef.current = requestAnimationFrame(() => {
+      pointerRafRef.current = 0;
+      setLogoFx((prev) => ({
+        ...prev,
+        x: pendingPointerRef.current.x,
+        y: pendingPointerRef.current.y,
+      }));
+    });
+  }, []);
+
+  const renderHeroBackground = () => {
+    switch (HERO_3D_MODE) {
+      case "batman":
+        return (
+          <BatmanLogo3D
+            onInteractionChange={handleInteractionChange}
+            onPointerMove={handlePointerMove}
+          />
+        );
+      case "glass":
+        return <FloatingGlassShards3D />;
+      case "rings":
+        return <OrbitingRings3D />;
+      case "rocks":
+        return <ProceduralRocks3D />;
+      case "energy":
+        return <EnergyFieldPlane3D />;
+      case "batman+dust":
+        return (
+          <>
+            <div className="hero__background-layer hero__background-layer--dust">
+              <VolumetricDust3D />
             </div>
-          </div>
-          <div className="hero__meta">
-            <span className="hero__role">SITE RELIABILITY ENGINEER</span>
-            <span
-              className="hero__caption soft-text reveal"
-              ref={captionRef}
-              style={{ transitionDelay: "0.3s" }}
-            >
-              I build calm, resilient platforms
-              for teams that ship
-              with confidence.
-            </span>
-          </div>
+            <div className="hero__background-layer hero__background-layer--batman">
+              <BatmanLogo3D
+                onInteractionChange={handleInteractionChange}
+                onPointerMove={handlePointerMove}
+              />
+            </div>
+          </>
+        );
+      case "dust":
+      default:
+        return <VolumetricDust3D />;
+    }
+  };
+
+  return (
+    <section
+      className={`hero section hero--3d ${logoFx.active ? "hero--logo-active" : ""}`}
+      id="home"
+      data-scroll-section
+    >
+      <div className="hero__background" aria-hidden="true">
+        {renderHeroBackground()}
+      </div>
+      <div className="hero__overlay">
+        <div className="hero__name">
+          {nameLines.map((line, lineIndex) => (
+            <h1 key={line} className="hero__name-line">
+              {[...line].map((letter, letterIndex) => {
+                const targetX = (letterIndex + 0.5) / line.length;
+                const targetY = lineIndex === 0 ? 0.36 : 0.68;
+                const dist = Math.hypot(logoFx.x - targetX, logoFx.y - targetY);
+                const hit = Math.max(0, 1 - dist * 2.9);
+                const isTouched = logoFx.active && hit > 0.2;
+
+                return (
+                  <span
+                    key={`${line}-${letter}-${letterIndex}`}
+                    className={`hero__letter ${isTouched ? "hero__letter--outline" : ""}`}
+                    style={{
+                      opacity: 1,
+                      color: isTouched ? "transparent" : "#ffffff",
+                      textShadow: "none",
+                    }}
+                  >
+                    {letter}
+                  </span>
+                );
+              })}
+            </h1>
+          ))}
         </div>
+
+        <div className="hero__subtitle">
+          <span className="hero__role">SITE RELIABILITY ENGINEER</span>
+          <span
+            className="hero__caption soft-text reveal"
+            ref={captionRef}
+            style={{ transitionDelay: "0.2s" }}
+          >
+          </span>
+        </div>
+      </div>
+      <div className={`hero__scroll ${hideIndicator ? "hero__scroll--hide" : ""}`}>
+        <span>{"\u2193"}</span>
       </div>
     </section>
   );
 };
 
 export default Hero;
-
-
-

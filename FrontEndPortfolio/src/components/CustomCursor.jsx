@@ -11,14 +11,17 @@ const CustomCursor = () => {
 
     let targetX = 0;
     let targetY = 0;
+    let rafId = 0;
 
     const onMove = (event) => {
       targetX = event.clientX;
       targetY = event.clientY;
-      cursor.style.left = `${targetX}px`;
-      cursor.style.top = `${targetY}px`;
-      dot.style.left = `${targetX}px`;
-      dot.style.top = `${targetY}px`;
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        cursor.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%) scale(1)`;
+        dot.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) translate(-50%, -50%)`;
+      });
     };
 
     const onEnter = () => cursor.classList.add("cursor--active");
@@ -31,6 +34,7 @@ const CustomCursor = () => {
     });
 
     return () => {
+      if (rafId) cancelAnimationFrame(rafId);
       window.removeEventListener("mousemove", onMove);
       document.querySelectorAll("a, button").forEach((el) => {
         el.removeEventListener("mouseenter", onEnter);

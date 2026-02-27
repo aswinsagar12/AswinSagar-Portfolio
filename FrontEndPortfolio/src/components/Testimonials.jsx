@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { client } from "../client";
 import useScrollReveal from "../hooks/useScrollReveal";
+import RippleText from "./RippleText";
 
 const TestimonialCard = ({ item, index }) => {
   const cardRef = useRef(null);
@@ -43,9 +44,9 @@ const Testimonials = () => {
     <section className="testimonials" id="testimonials" data-scroll-section>
       <div className="section__header">
         <span className="section__number">06</span>
-        <h2 className="section-title reveal" ref={titleRef}>
+        <RippleText tag="h2" className="section-title reveal" ref={titleRef}>
           Testimonials
-        </h2>
+        </RippleText>
       </div>
       <div className="testimonials__grid">
         {(testimonials.length ? testimonials : []).map((item, index) => (
