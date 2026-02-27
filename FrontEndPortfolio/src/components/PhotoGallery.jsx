@@ -1,6 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import RippleText from "./RippleText";
 
+import moment1 from "../assets/Moments/1.jpg";
+import moment2 from "../assets/Moments/2.jpg";
+import moment3 from "../assets/Moments/3.jpg";
+import moment4 from "../assets/Moments/4.jpg";
+import moment5 from "../assets/Moments/5.jpg";
+import moment6 from "../assets/Moments/6.jpg";
+
 const vertexShader = `
   attribute vec2 position;
   attribute vec2 uv;
@@ -34,21 +41,32 @@ const imageFragmentShader = `
     uv.y += ripple * 0.7;
 
     vec4 color = texture2D(uTexture, clamp(uv, 0.001, 0.999));
-    color.rgb += uHover * 0.06;
-    gl_FragColor = color;
+    float luma = dot(color.rgb, vec3(0.2126, 0.7152, 0.0722));
+    float bw = (luma - 0.5) * 1.45 + 0.5; // high contrast
+    bw = clamp(bw, 0.0, 1.0);
+
+    float vignette = smoothstep(0.95, 0.28, distance(vUv, vec2(0.5)));
+    vec3 tone = vec3(bw) * mix(0.68, 1.0, vignette); // cinematic dark corners
+
+    // subtle film grain
+    float grain = fract(sin(dot(vUv * vec2(129.9898, 78.233), vec2(12.9898, 78.233)) + uTime * 2.0) * 43758.5453);
+    tone += (grain - 0.5) * 0.028;
+    tone += uHover * 0.04;
+
+    gl_FragColor = vec4(clamp(tone, 0.0, 1.0), 1.0);
   }
 `;
 
 const photos = [
-  { src: "/images/photo1.jpg", alt: "Photo 1", label: "01" },
-  { src: "/images/photo2.jpg", alt: "Photo 2", label: "02" },
-  { src: "/images/photo3.jpg", alt: "Photo 3", label: "03" },
-  { src: "/images/photo4.jpg", alt: "Photo 4", label: "04" },
-  { src: "/images/photo5.jpg", alt: "Photo 5", label: "05" },
-  { src: "/images/photo6.jpg", alt: "Photo 6", label: "06" },
+  { src: moment1, alt: "Aswin portrait 1", label: "01", focusX: 0.5, focusY: 0.34 },
+  { src: moment2, alt: "Aswin portrait 2", label: "02", focusX: 0.5, focusY: 0.35 },
+  { src: moment3, alt: "Aswin portrait 3", label: "03", focusX: 0.5, focusY: 0.37 },
+  { src: moment4, alt: "Aswin portrait 4", label: "04", focusX: 0.5, focusY: 0.2 },
+  { src: moment5, alt: "Aswin portrait 5", label: "05", focusX: 0.5, focusY: 0.38 },
+  { src: moment6, alt: "Aswin portrait 6", label: "06", focusX: 0.5, focusY: 0.34 },
 ];
 
-const RippleImage = ({ src, alt }) => {
+const RippleImage = ({ src, alt, focusX = 0.5, focusY = 0.5 }) => {
   const canvasRef = useRef(null);
   const [disableWebgl, setDisableWebgl] = useState(
     () => typeof window !== "undefined" && "ontouchstart" in window
@@ -61,6 +79,7 @@ const RippleImage = ({ src, alt }) => {
     rippleTime: 0,
     animId: null,
     texture: null,
+    image: null,
     posBuf: null,
     uvBuf: null,
     program: null,
@@ -147,12 +166,56 @@ const RippleImage = ({ src, alt }) => {
       uHover: gl.getUniformLocation(program, "uHover"),
     };
 
+    const uploadCoverTexture = (img) => {
+      const rect = canvas.getBoundingClientRect();
+      if (!rect.width || !rect.height) return;
+      const dpr = window.devicePixelRatio || 1;
+      canvas.width = Math.max(1, Math.floor(rect.width * dpr));
+      canvas.height = Math.max(1, Math.floor(rect.height * dpr));
+      gl.viewport(0, 0, canvas.width, canvas.height);
+
+      const offscreen = document.createElement("canvas");
+      offscreen.width = canvas.width;
+      offscreen.height = canvas.height;
+      const ctx = offscreen.getContext("2d");
+      if (!ctx) return;
+
+      ctx.fillStyle = "#000";
+      ctx.fillRect(0, 0, offscreen.width, offscreen.height);
+
+      const scale = Math.max(offscreen.width / img.width, offscreen.height / img.height);
+      const drawW = img.width * scale;
+      const drawH = img.height * scale;
+      const maxX = Math.max(0, drawW - offscreen.width);
+      const maxY = Math.max(0, drawH - offscreen.height);
+      const dx = -maxX * focusX;
+      const dy = -maxY * focusY;
+
+      ctx.filter = "grayscale(100%) contrast(130%) brightness(92%)";
+      ctx.drawImage(img, dx, dy, drawW, drawH);
+      ctx.filter = "none";
+
+      const tex = gl.createTexture();
+      if (!tex) return;
+      gl.bindTexture(gl.TEXTURE_2D, tex);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, offscreen);
+      gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+      if (s.texture) gl.deleteTexture(s.texture);
+      s.texture = tex;
+    };
+
     const resize = () => {
       const rect = canvas.getBoundingClientRect();
       const dpr = window.devicePixelRatio || 1;
       canvas.width = Math.max(1, Math.floor(rect.width * dpr));
       canvas.height = Math.max(1, Math.floor(rect.height * dpr));
       gl.viewport(0, 0, canvas.width, canvas.height);
+      if (s.image) uploadCoverTexture(s.image);
     };
 
     resize();
@@ -161,16 +224,8 @@ const RippleImage = ({ src, alt }) => {
     img.crossOrigin = "anonymous";
     img.src = src;
     img.onload = () => {
-      const tex = gl.createTexture();
-      if (!tex) return;
-      gl.bindTexture(gl.TEXTURE_2D, tex);
-      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-      gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-      if (s.texture) gl.deleteTexture(s.texture);
-      s.texture = tex;
+      s.image = img;
+      uploadCoverTexture(img);
     };
 
     let lastTime = 0;
@@ -248,10 +303,21 @@ const RippleImage = ({ src, alt }) => {
       if (s.uvBuf) gl.deleteBuffer(s.uvBuf);
       if (s.program) gl.deleteProgram(s.program);
     };
-  }, [disableWebgl, src]);
+  }, [disableWebgl, src, focusX, focusY]);
 
   if (disableWebgl) {
-    return <img className="gallery-image-fallback" src={src} alt={alt} loading="lazy" />;
+    return (
+      <img
+        className="gallery-image-fallback"
+        src={src}
+        alt={alt}
+        loading="lazy"
+        style={{
+          objectPosition: `${Math.round(focusX * 100)}% ${Math.round(focusY * 100)}%`,
+          filter: "grayscale(100%) contrast(128%) brightness(92%)",
+        }}
+      />
+    );
   }
 
   return <canvas ref={canvasRef} style={{ width: "100%", height: "100%", display: "block" }} aria-label={alt} />;
@@ -270,14 +336,13 @@ const PhotoGallery = () => {
         {photos.map((photo) => (
           <div key={photo.label} className="gallery-card">
             <div className="gallery-card-inner">
-              <RippleImage src={photo.src} alt={photo.alt} />
+              <RippleImage src={photo.src} alt={photo.alt} focusX={photo.focusX} focusY={photo.focusY} />
             </div>
             <div className="gallery-card-label">{photo.label}</div>
           </div>
         ))}
       </div>
-      {/* ADD YOUR PHOTOS: Place photo1.jpg through photo6.jpg in /public/images/ */}
-      {/* Recommended size: 800x600px, JPG format */}
+      {/* Add photos in src/assets/moments and update imports above */}
     </section>
   );
 };
