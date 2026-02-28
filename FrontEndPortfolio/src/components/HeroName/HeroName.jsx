@@ -67,11 +67,11 @@ function HeroName() {
     >
       <h1
         style={{
-          fontSize: isMobile ? "clamp(5.7rem, 23vw, 9.6rem)" : "clamp(3.2rem, 11vw, 8.8rem)",
+          fontSize: isMobile ? "clamp(4.9rem, 19.5vw, 8.2rem)" : "clamp(3.2rem, 11vw, 8.8rem)",
           fontFamily: "'HK Grotesk Wide', Outfit, Arial, sans-serif",
           fontWeight: 800,
           color: "#fff",
-          letterSpacing: isMobile ? "0.14em" : "0.1em",
+          letterSpacing: isMobile ? "0.11em" : "0.1em",
           lineHeight: 1,
           textAlign: "center",
           margin: 0,

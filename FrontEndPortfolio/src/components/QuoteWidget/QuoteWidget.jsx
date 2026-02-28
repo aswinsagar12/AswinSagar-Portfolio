@@ -15,8 +15,12 @@ const quotes = [
 
 const getInitialPos = () => {
   const w = typeof window !== "undefined" ? window.innerWidth : 1280;
+  const h = typeof window !== "undefined" ? window.innerHeight : 900;
   const mobile = w < 768;
-  if (mobile) return { x: 16, y: 20 };
+  if (mobile) {
+    const cardW = 154;
+    return { x: Math.max(8, Math.floor((w - cardW) / 2)), y: Math.max(76, Math.floor(h * 0.13)) };
+  }
   return { x: Math.max(w - 320, 24), y: 100 };
 };
 
