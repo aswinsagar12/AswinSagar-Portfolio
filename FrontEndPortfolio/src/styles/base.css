@@ -1,0 +1,92 @@
+@font-face {
+  font-family: "HK Grotesk Wide";
+  src: url("../assets/fonts/HKGroteskWide-Regular.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "HK Grotesk Wide";
+  src: url("../assets/fonts/HKGroteskWide-ExtraBold.otf") format("opentype");
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  --bg: #000000;
+  --text: #ffffff;
+  --accent: #ffffff;
+  --muted: rgba(255, 255, 255, 0.6);
+  --border: rgba(255, 255, 255, 0.12);
+  --mono: "Helvetica Now Display", -apple-system, BlinkMacSystemFont,
+    "avenir next", avenir, "segoe ui", "helvetica neue", helvetica, Cantarell,
+    Ubuntu, roboto, noto, arial, sans-serif;
+  --serif: "Helvetica Now Display", -apple-system, BlinkMacSystemFont,
+    "avenir next", avenir, "segoe ui", "helvetica neue", helvetica, Cantarell,
+    Ubuntu, roboto, noto, arial, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+#root {
+  background: var(--bg);
+  color: var(--text);
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--mono);
+  letter-spacing: 0.01em;
+  cursor: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s cubic-bezier(0.76, 0, 0.24, 1),
+    transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-line {
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.9s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.reveal-line.is-visible {
+  transform: scaleX(1);
+}
+
+@media (hover: none) {
+  body {
+    cursor: auto;
+  }
+
+  .cursor,
+  .cursor-dot {
+    display: none;
+  }
+}

@@ -1,0 +1,41 @@
+.contact {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: 6rem;
+  overflow-x: hidden;
+}
+
+.contact__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.contact__title {
+  font-family: var(--serif);
+  font-size: clamp(2.08rem, 6vw, 6.8rem);
+  margin-bottom: 2rem;
+}
+
+.contact__email {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: clamp(1rem, 2vw, 2rem);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+}
+
+.contact__links {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+}

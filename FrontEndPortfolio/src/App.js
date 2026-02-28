@@ -16,6 +16,7 @@ import {
   Footer,
   RouteNotFound,
 } from "./components";
+import "./App.css";
 
 const ROUTE_TO_SECTION = {
   "/": "home",

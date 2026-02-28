@@ -1,49 +1,18 @@
-import React, { useState } from "react";
-import "./Navbar.scss";
-import { HiMenuAlt4, HiX } from "react-icons/hi";
-import { motion } from "framer-motion";
+import React from "react";
+import "./Navbar.css";
 
 const Navbar = () => {
-  const [toggle, setToggle] = useState(false);
-
   return (
-    <nav className="app__navbar">
-      <div className="app__navbar-logo">
-        <h5 className="name-logo">ASWIN SAGAR</h5>
-      </div>
-      <ul className="app__navbar-links">
-        {["Work", "About", "Contact"].map((item) => (
-          <li className="app__flex" key={`link-${item}`}>
-            <a href={`#${item.toLowerCase()}`}>{item}</a>
-          </li>
-        ))}
-      </ul>
-
-      <div className="app__navbar-meta">2026</div>
-
-      <div className="app__navbar-menu">
-        <HiMenuAlt4 onClick={() => setToggle(true)} />
-
-        {toggle && (
-          <motion.div
-            whileInView={{ x: [300, 0] }}
-            transition={{ duration: 0.85, ease: "easeOut" }}
-          >
-            <HiX onClick={() => setToggle(false)} />
-            <ul>
-              {["Work", "About", "Contact"].map((item) => (
-                <li key={item}>
-                  <a href={`#${item.toLowerCase()}`} onClick={() => setToggle(false)}>
-                    {item}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </motion.div>
-        )}
+    <nav className="navbar">
+      <div className="navbar__brand">Aswin Sagar</div>
+      <div className="navbar__links">
+        <a href="#about"><span>About</span></a>
+        <a href="#contact"><span>Contact</span></a>
       </div>
     </nav>
   );
 };
 
 export default Navbar;
+
+

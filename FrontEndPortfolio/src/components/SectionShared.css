@@ -1,0 +1,36 @@
+.section {
+  padding: clamp(4.5rem, 10vw, 9rem) 6vw;
+  position: relative;
+}
+
+.section__header {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  margin-bottom: 2.5rem;
+}
+
+.section__header::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+
+.section__number {
+  font-family: var(--mono);
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--muted);
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 4rem);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+
+.soft-text {
+  opacity: 0.85;
+}

@@ -1,0 +1,19 @@
+.no-select {
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.widget-card {
+  transition: box-shadow 0.2s ease;
+}
+
+.widget-card:active {
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+  cursor: grabbing;
+}
+
+@media (max-width: 768px) {
+  .widget-card {
+    max-width: calc(100vw - 24px);
+  }
+}

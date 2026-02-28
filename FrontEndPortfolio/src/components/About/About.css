@@ -1,0 +1,38 @@
+.about {
+  padding-left: 8vw;
+  padding-right: 8vw;
+}
+
+.about__grid {
+  display: grid;
+  grid-template-columns: minmax(120px, 200px) 1fr;
+  gap: 3rem;
+  align-items: start;
+}
+
+.about__badge {
+  font-family: var(--serif);
+  font-size: 4rem;
+  color: rgba(255, 255, 255, 0.12);
+}
+
+.about__text {
+  font-family: var(--serif);
+  font-size: clamp(1.2rem, 2.5vw, 2rem);
+  line-height: 1.4;
+  margin-bottom: 1.5rem;
+}
+
+.about__skills {
+  font-family: var(--mono);
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+@media screen and (max-width: 900px) {
+  .about__grid {
+    grid-template-columns: 1fr;
+  }
+}

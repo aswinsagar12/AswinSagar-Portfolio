@@ -1,0 +1,121 @@
+.experience {
+  padding: clamp(4.5rem, 10vw, 9rem) 6vw;
+}
+
+.experience__rows {
+  display: grid;
+  gap: 2rem;
+}
+
+.experience__row {
+  cursor: pointer;
+  padding-left: 40px;
+  transition: background 0.3s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.experience__rule {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+}
+
+.experience__grid {
+  display: grid;
+  grid-template-columns: minmax(60px, 90px) minmax(0, 1fr) minmax(200px, 280px) minmax(140px, 180px);
+  gap: 2rem;
+  padding: 2rem 0;
+  align-items: start;
+}
+
+.experience__num {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--muted);
+}
+
+.experience__title {
+  display: grid;
+  gap: 1rem;
+}
+
+.experience__heading {
+  font-family: var(--serif);
+  font-size: clamp(2rem, 4vw, 46px);
+  font-weight: 400;
+  line-height: 0.95;
+  transition: transform 0.3s ease;
+}
+
+.experience__row:hover .experience__heading {
+  transform: translateY(-4px);
+}
+
+.experience__desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+}
+
+.experience__meta {
+  display: grid;
+  gap: 0.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.experience__company {
+  color: var(--accent);
+}
+
+.experience__location {
+  color: var(--muted);
+}
+
+.experience__year {
+  font-family: var(--mono);
+  text-align: right;
+  font-size: 0.9rem;
+  color: var(--accent);
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.experience__arrow {
+  opacity: 0;
+  transform: translateX(-8px);
+  transition: all 0.3s cubic-bezier(0.76, 0, 0.24, 1);
+}
+
+.experience__row:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.experience__row:hover .experience__arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+@media screen and (max-width: 900px) {
+  .experience__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .experience__year {
+    text-align: left;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .experience__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .experience__year {
+    text-align: left;
+  }
+}

@@ -1,0 +1,11 @@
+.ripple-text {
+  position: relative;
+  display: inline-block;
+  line-height: 1;
+}
+
+.ripple-text__canvas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
