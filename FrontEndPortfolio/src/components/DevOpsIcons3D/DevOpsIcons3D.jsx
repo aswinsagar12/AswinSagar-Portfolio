@@ -66,8 +66,7 @@ export default function DevOpsIcons3D() {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setClearColor(0x000000, 0);
-    renderer.domElement.style.touchAction = isMobile ? "auto" : "none";
-    if (isMobile) renderer.domElement.style.pointerEvents = "none";
+    renderer.domElement.style.touchAction = isMobile ? "pan-y" : "none";
     container.appendChild(renderer.domElement);
 
     const ambient = new THREE.AmbientLight(0xffffff, 0.45);
@@ -168,6 +167,10 @@ export default function DevOpsIcons3D() {
       dragState.prevClientX = e.clientX;
       dragState.prevClientY = e.clientY;
       item.isDragging = true;
+      if (isMobile && typeof e.preventDefault === "function") e.preventDefault();
+      if (renderer.domElement.setPointerCapture && typeof e.pointerId === "number") {
+        renderer.domElement.setPointerCapture(e.pointerId);
+      }
 
       dragPlane.set(new THREE.Vector3(0, 0, 1), -item.mesh.position.z);
       if (raycaster.ray.intersectPlane(dragPlane, planeHit)) {
@@ -184,6 +187,7 @@ export default function DevOpsIcons3D() {
       raycaster.setFromCamera(pointer, camera);
 
       if (dragState.item) {
+        if (isMobile && typeof e.preventDefault === "function") e.preventDefault();
         const item = dragState.item;
         dragPlane.set(new THREE.Vector3(0, 0, 1), -item.mesh.position.z);
         if (raycaster.ray.intersectPlane(dragPlane, planeHit)) {
@@ -214,11 +218,9 @@ export default function DevOpsIcons3D() {
       renderer.domElement.style.cursor = dragState.hoverItem ? "grab" : "default";
     };
 
-    if (!isMobile) {
-      renderer.domElement.addEventListener("pointerdown", handlePointerDown);
-      window.addEventListener("pointermove", handlePointerMove);
-      window.addEventListener("pointerup", handlePointerUp);
-    }
+    renderer.domElement.addEventListener("pointerdown", handlePointerDown);
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
 
     const onResize = () => {
       const w = container.clientWidth;
@@ -252,11 +254,9 @@ export default function DevOpsIcons3D() {
 
     return () => {
       cancelAnimationFrame(frameId);
-      if (!isMobile) {
-        renderer.domElement.removeEventListener("pointerdown", handlePointerDown);
-        window.removeEventListener("pointermove", handlePointerMove);
-        window.removeEventListener("pointerup", handlePointerUp);
-      }
+      renderer.domElement.removeEventListener("pointerdown", handlePointerDown);
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
       window.removeEventListener("resize", onResize);
       items.forEach((item) => {
         item.texture.dispose();
@@ -270,7 +270,7 @@ export default function DevOpsIcons3D() {
     };
   }, []);
 
-  return <div ref={containerRef} style={{ position: "absolute", inset: 0, zIndex: 1, touchAction: "auto" }} />;
+  return <div ref={containerRef} style={{ position: "absolute", inset: 0, zIndex: 1, touchAction: "pan-y" }} />;
 }
 
 
