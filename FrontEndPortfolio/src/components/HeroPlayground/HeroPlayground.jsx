@@ -4,14 +4,15 @@ import HeroName from "../HeroName/HeroName";
 import LocationWidget from "../LocationWidget/LocationWidget";
 import QuoteWidget from "../QuoteWidget/QuoteWidget";
 import TerminalWidget from "../TerminalWidget/TerminalWidget";
+import "./HeroPlayground.css";
 
 export default function HeroPlayground() {
   const [isMobile, setIsMobile] = useState(
-    () => typeof window !== "undefined" && window.innerWidth < 768
+    () => typeof window !== "undefined" && window.innerWidth < 720
   );
 
   useEffect(() => {
-    const onResize = () => setIsMobile(window.innerWidth < 768);
+    const onResize = () => setIsMobile(window.innerWidth < 720);
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
@@ -19,6 +20,7 @@ export default function HeroPlayground() {
   return (
     <section
       id="home"
+      className="hero-container"
       style={{
         position: "relative",
         width: "100%",

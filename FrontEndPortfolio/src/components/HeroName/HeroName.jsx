@@ -52,6 +52,7 @@ function HeroName() {
 
   return (
     <div
+      className="hero-name-container"
       style={{
         position: "absolute",
         inset: 0,
@@ -66,6 +67,7 @@ function HeroName() {
       }}
     >
       <h1
+        className="main-name"
         style={{
           fontSize: isMobile ? "clamp(4.9rem, 19.5vw, 8.2rem)" : "clamp(3.2rem, 11vw, 8.8rem)",
           fontFamily: "'HK Grotesk Wide', Outfit, Arial, sans-serif",
@@ -111,6 +113,7 @@ function HeroName() {
         })}
       </h1>
       <p
+        className="subtitle"
         style={{
           color: "rgba(255,255,255,0.5)",
           fontFamily: "monospace",

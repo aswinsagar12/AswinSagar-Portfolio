@@ -172,7 +172,7 @@ export default function QuoteWidget() {
   return (
     <div
       ref={cardRef}
-      className="widget-card no-select"
+      className="widget-card no-select memo-card"
       onMouseDown={onMouseDown}
       style={{
         ...(typeof window !== "undefined" && window.innerWidth < 768

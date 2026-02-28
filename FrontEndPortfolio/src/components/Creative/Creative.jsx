@@ -14,11 +14,19 @@ const Creative = () => {
       <div className="section__header">
         <span className="section__number">05</span>
         <RippleText tag="h2" className="section-title reveal" ref={titleRef}>
-          Creative Field
+          Creative Labs
         </RippleText>
       </div>
       <div className="creative__grid">
-        {["Bike", "Gym", "Editing", "Cricket", "Football", "Humour", "Foodie"].map(
+        {[
+          "Bike Rides & Long Routes",
+          "Cricket Sessions",
+          "Football Matches",
+          "Weekend Adventure Trails",
+          "Road Trip Planning",
+          "Fitness & Endurance Training",
+          "Outdoor Team Activities",
+        ].map(
           (item) => (
             <div className="creative__card" key={item}>
               <span className="creative__item">{item}</span>

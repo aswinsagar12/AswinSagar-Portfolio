@@ -41,7 +41,10 @@ const getInitialPos = () => {
   const h = typeof window !== "undefined" ? window.innerHeight : 900;
   const mobile = w < 768;
   if (mobile) return { x: 16, y: h - 210 };
-  return { x: 120, y: Math.max(h - 280, 320) };
+  return {
+    x: Math.max(0, 120 - Math.round(w * 0.01)),
+    y: Math.max(h - 280, 320) + Math.round(h * 0.02),
+  };
 };
 
 export default function TerminalWidget() {
@@ -342,7 +345,7 @@ export default function TerminalWidget() {
         left: pos.x,
         top: pos.y,
         zIndex: 23,
-        width: isMobile ? "252px" : "min(288px, calc(100vw - 24px))",
+        width: isMobile ? "252px" : "min(274px, calc(100vw - 24px))",
         cursor: "grab",
         userSelect: "none",
         touchAction: "none",

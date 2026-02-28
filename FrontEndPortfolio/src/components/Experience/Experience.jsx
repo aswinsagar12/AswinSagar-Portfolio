@@ -11,15 +11,23 @@ const experiences = [
     company: "GARDEN CITY GAMES",
     location: "Bengaluru, India",
     years: "2025 - Present",
-    desc: "Reliability engineering, observability, incident response.",
+    desc: "Observability, reliability automation, and incident response.",
   },
   {
     num: "02",
-    title: ["DevOps & Cloud", "Engineer"],
+    title: ["DevOps", "Engineer"],
     company: "HCLTECH",
     location: "Bengaluru, India",
-    years: "2022 - 2025",
-    desc: "Automation, cloud infrastructure, CI/CD, Kubernetes.",
+    years: "June 2022 - July 2025",
+    desc: "CI/CD, infrastructure automation, monitoring, and cloud cost optimization.",
+  },
+  {
+    num: "03",
+    title: ["Web", "Developer"],
+    company: "LEAD4EARTH",
+    location: "Mumbai, India",
+    years: "Feb 2022 - June 2022",
+    desc: "Frontend development and backend performance optimization.",
   },
 ];
 
@@ -52,7 +60,7 @@ const ExperienceRow = ({ item, index }) => {
         </div>
         <div className="experience__year">
           {item.years}
-          <span className="experience__arrow">-></span>
+          <span className="experience__arrow">{"\u2197"}</span>
         </div>
       </div>
       <div className="experience__rule reveal-line" ref={bottomRuleRef} />
@@ -82,6 +90,3 @@ const Experience = () => {
 };
 
 export default Experience;
-
-
-

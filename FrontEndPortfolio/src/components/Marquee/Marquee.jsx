@@ -7,7 +7,7 @@ const Marquee = ({ text, inverted = false }) => {
   useScrollReveal(trackRef);
 
   const items = text
-    .split("·")
+    .split(/\u00C2\u00B7|\u00B7|\|/g)
     .map((item) => item.trim())
     .filter(Boolean);
   const row = [...items, ...items];
@@ -27,5 +27,3 @@ const Marquee = ({ text, inverted = false }) => {
 };
 
 export default Marquee;
-
-

@@ -23,11 +23,20 @@ const Contact = () => {
           aswinsagar12@gmail.com
         </a>
         <div className="contact__links reveal" ref={linksRef}>
+          <a href="https://www.instagram.com/aswin.sagar/" target="_blank" rel="noreferrer">
+            Instagram
+          </a>
+          <a href="https://www.facebook.com/aswinsagar12/" target="_blank" rel="noreferrer">
+            Facebook
+          </a>
+          <a href="https://www.youtube.com/@aswinsagar12" target="_blank" rel="noreferrer">
+            YouTube
+          </a>
+          <a href="https://in.pinterest.com/aswinsagar/" target="_blank" rel="noreferrer">
+            Pinterest
+          </a>
           <a href="https://www.linkedin.com/in/aswinsagar12/" target="_blank" rel="noreferrer">
             LinkedIn
-          </a>
-          <a href="https://github.com/aswinsagar12" target="_blank" rel="noreferrer">
-            GitHub
           </a>
         </div>
       </div>

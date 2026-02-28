@@ -52,13 +52,12 @@ const App = () => {
     window.scrollTo(0, 0);
     const lenis = new Lenis({
       smooth: true,
-      duration: 0.85,
-      easing: (t) => 1 - Math.pow(1 - t, 3),
+      lerp: 0.12,
       orientation: "vertical",
       smoothWheel: true,
-      wheelMultiplier: 1,
-      touchMultiplier: 1.05,
-      syncTouch: true,
+      wheelMultiplier: 1.05,
+      touchMultiplier: 1,
+      syncTouch: false,
     });
 
     let rafId;
@@ -122,7 +121,7 @@ const App = () => {
           <SocialMedia />
           <HeroPlayground />
           <Marquee
-            text="SITE RELIABILITY · OBSERVABILITY · DEVOPS · PLATFORM ENGINEERING · KUBERNETES · CLOUD INFRASTRUCTURE · AUTOMATION · INCIDENT RESPONSE · PERFORMANCE · CI/CD"
+            text="SITE RELIABILITY | OBSERVABILITY | DEVOPS | PLATFORM ENGINEERING | KUBERNETES | CLOUD INFRASTRUCTURE | AUTOMATION | INCIDENT RESPONSE | PERFORMANCE | CI/CD"
             inverted
           />
           <About />
@@ -142,3 +141,4 @@ const App = () => {
 };
 
 export default App;
+

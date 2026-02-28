@@ -171,7 +171,7 @@ export default function LocationWidget() {
   return (
     <div
       ref={cardRef}
-      className="widget-card no-select"
+      className="widget-card no-select location-pill"
       onMouseDown={onMouseDown}
       style={{
         ...(typeof window !== "undefined" && window.innerWidth < 768

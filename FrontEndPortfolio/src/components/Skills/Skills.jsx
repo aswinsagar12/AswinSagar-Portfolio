@@ -6,28 +6,36 @@ import "./Skills.css";
 
 const skills = [
   {
-    title: "Reliability Engineering",
-    meta: "SLOs, SLIs, error budgets, capacity planning",
+    title: "Cloud & DevOps",
+    meta: "AWS, GCP, DigitalOcean, Terraform, Ansible, Docker, Kubernetes, Helm",
   },
   {
-    title: "Observability",
-    meta: "Prometheus, Grafana, Logz.io, NewRelic, CloudWatch",
+    title: "CI/CD & Release Engineering",
+    meta: "Jenkins, GitHub Actions, Maven, Nexus, Git workflows, progressive delivery",
   },
   {
-    title: "Automation & IaC",
-    meta: "Terraform, Ansible, Bash, Python",
+    title: "Observability & Monitoring",
+    meta: "Prometheus, Grafana, Splunk, CloudWatch, SLO/SLI design, alert tuning",
   },
   {
-    title: "Cloud Platforms",
-    meta: "AWS, GCP, OpenStack, multi-cloud strategy",
+    title: "Security & Compliance",
+    meta: "IAM, VPC networking, OAuth 2.0, Okta, SOC 2, ISO 27001 readiness",
   },
   {
-    title: "Containers & Orchestration",
-    meta: "Docker, Kubernetes (EKS, self-managed)",
+    title: "Automation & Scripting",
+    meta: "Python, JavaScript, TypeScript, YAML, JSON, Bash, Lambda automation",
   },
   {
-    title: "Incident Response",
-    meta: "PagerDuty, Opsgenie, postmortems, runbooks",
+    title: "Development Stack",
+    meta: "Node.js, Angular, Java, REST APIs, Postman, SQL, NoSQL, MongoDB",
+  },
+  {
+    title: "Reliability Operations",
+    meta: "Incident response, automated remediation, postmortems, resilience engineering",
+  },
+  {
+    title: "Collaboration & Delivery",
+    meta: "Jira, Confluence, Agile sprint execution, cross-functional delivery ownership",
   },
 ];
 

@@ -24,6 +24,14 @@ const About = () => {
   }, []);
 
   const primary = abouts[0];
+  const legacyAboutText =
+    "As a Cloud Engineer, I architect and manage cloud environments that enable secure, scalable, and cost-effective solutions. I leverage cloud platforms to bring flexibility and resilience to modern applications, meeting the needs of dynamic business environments.";
+  const creativeAboutText =
+    "I build cloud systems like adventure routes: clear map, strong guardrails, and enough resilience to handle every unexpected turn. My goal is simple - fast releases, stable platforms, and fewer midnight alarms, so teams can focus on creating, not firefighting.";
+  const displayedAbout =
+    primary?.description && primary.description.trim() !== legacyAboutText
+      ? primary.description
+      : creativeAboutText;
 
   return (
     <section className="about section" id="about" data-scroll-section>
@@ -39,16 +47,15 @@ const About = () => {
         </div>
         <div className="about__right">
           <p className="about__text soft-text reveal" ref={textRef}>
-            {primary?.description ||
-              "As a Cloud Engineer, I architect and manage cloud environments that enable secure, scalable, and cost-effective solutions. I leverage cloud platforms to bring flexibility and resilience to modern applications, meeting the needs of dynamic business environments."}
+            {displayedAbout}
           </p>
           <div
             className="about__skills soft-text reveal"
             ref={skillsRef}
             style={{ transitionDelay: "0.1s" }}
           >
-            SRE, DevOps, Observability, Incident Response, Capacity Planning,
-            Automation, Reliability Engineering
+            Less fire-fighting, more automation. Less guesswork, more signals.
+            More uptime, fewer 2 AM surprises.
           </div>
         </div>
       </div>
