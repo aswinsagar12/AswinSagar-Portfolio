@@ -1,59 +1,26 @@
 @media (max-width: 720px) {
   .hero-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
     padding: 0 20px;
     text-align: center;
+    overflow: visible !important;
   }
 
   .hero-container .memo-card {
-    order: 1;
-    position: static !important;
-    transform: none !important;
-    left: auto !important;
-    top: auto !important;
-    margin-top: 80px;
-    width: 100%;
     max-width: 90%;
-    z-index: 12;
-  }
-
-  .hero-container .hero-name-container {
-    order: 2;
-    position: static !important;
-    inset: auto !important;
-    transform: none !important;
-    left: auto !important;
-    top: auto !important;
-    margin-top: 26px;
-    padding-top: 0 !important;
-    width: 100%;
-    z-index: 11;
   }
 
   .hero-container .main-name {
     font-size: 14vw !important;
     line-height: 1 !important;
-    margin-top: 0 !important;
   }
 
   .hero-container .subtitle {
     font-size: 4vw !important;
     letter-spacing: 3px !important;
-    margin-top: 15px !important;
   }
 
   .hero-container .location-pill {
-    order: 3;
-    position: static !important;
-    transform: none !important;
-    left: auto !important;
-    top: auto !important;
-    margin-top: 24px;
-    width: 100%;
     max-width: 85%;
-    z-index: 12;
+    text-align: left;
   }
 }

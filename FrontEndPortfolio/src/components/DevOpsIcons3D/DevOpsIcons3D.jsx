@@ -60,12 +60,14 @@ export default function DevOpsIcons3D() {
       100
     );
     camera.position.set(0, 0, 18);
+    const isMobile = window.innerWidth <= 768;
 
     const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setClearColor(0x000000, 0);
-    renderer.domElement.style.touchAction = "none";
+    renderer.domElement.style.touchAction = isMobile ? "auto" : "none";
+    if (isMobile) renderer.domElement.style.pointerEvents = "none";
     container.appendChild(renderer.domElement);
 
     const ambient = new THREE.AmbientLight(0xffffff, 0.45);
@@ -75,7 +77,6 @@ export default function DevOpsIcons3D() {
     fill.position.set(-4, -2, 6);
     scene.add(ambient, key, fill);
 
-    const isMobile = window.innerWidth <= 768;
     const scaleFactor = isMobile ? 0.84 : 1;
     const spreadFactor = isMobile ? 1.1 : 1.5;
 
@@ -213,9 +214,11 @@ export default function DevOpsIcons3D() {
       renderer.domElement.style.cursor = dragState.hoverItem ? "grab" : "default";
     };
 
-    renderer.domElement.addEventListener("pointerdown", handlePointerDown);
-    window.addEventListener("pointermove", handlePointerMove);
-    window.addEventListener("pointerup", handlePointerUp);
+    if (!isMobile) {
+      renderer.domElement.addEventListener("pointerdown", handlePointerDown);
+      window.addEventListener("pointermove", handlePointerMove);
+      window.addEventListener("pointerup", handlePointerUp);
+    }
 
     const onResize = () => {
       const w = container.clientWidth;
@@ -249,9 +252,11 @@ export default function DevOpsIcons3D() {
 
     return () => {
       cancelAnimationFrame(frameId);
-      renderer.domElement.removeEventListener("pointerdown", handlePointerDown);
-      window.removeEventListener("pointermove", handlePointerMove);
-      window.removeEventListener("pointerup", handlePointerUp);
+      if (!isMobile) {
+        renderer.domElement.removeEventListener("pointerdown", handlePointerDown);
+        window.removeEventListener("pointermove", handlePointerMove);
+        window.removeEventListener("pointerup", handlePointerUp);
+      }
       window.removeEventListener("resize", onResize);
       items.forEach((item) => {
         item.texture.dispose();
@@ -265,7 +270,7 @@ export default function DevOpsIcons3D() {
     };
   }, []);
 
-  return <div ref={containerRef} style={{ position: "absolute", inset: 0, zIndex: 1, touchAction: "none" }} />;
+  return <div ref={containerRef} style={{ position: "absolute", inset: 0, zIndex: 1, touchAction: "auto" }} />;
 }
 
 
