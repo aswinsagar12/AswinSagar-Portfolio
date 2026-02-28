@@ -6,7 +6,7 @@ const getInitialPos = () => {
   const w = typeof window !== "undefined" ? window.innerWidth : 1280;
   const h = typeof window !== "undefined" ? window.innerHeight : 900;
   const mobile = w < 768;
-  if (mobile) return { x: Math.max(8, Math.floor((w - 150) / 2)), y: Math.floor(h * 0.8) };
+  if (mobile) return { x: Math.max(8, Math.floor((w - 150) / 2)), y: Math.floor(h * 0.86) };
   return { x: Math.max(8, w - 220 - 16), y: Math.max(8, h - 92 - 20) };
 };
 

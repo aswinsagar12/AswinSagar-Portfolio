@@ -19,7 +19,11 @@ const getInitialPos = () => {
   const mobile = w < 768;
   if (mobile) {
     const cardW = 154;
-    return { x: Math.max(8, Math.floor((w - cardW) / 2)), y: Math.max(76, Math.floor(h * 0.13)) };
+    const centeredX = Math.floor((w - cardW) / 2);
+    return {
+      x: Math.max(8, centeredX - Math.floor(w * 0.05)),
+      y: Math.max(76, Math.floor(h * 0.13)),
+    };
   }
   return { x: Math.max(w - 320, 24), y: 100 };
 };

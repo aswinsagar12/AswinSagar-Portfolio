@@ -62,7 +62,7 @@ function HeroName() {
         alignItems: "center",
         justifyContent: "center",
         pointerEvents: "none",
-        paddingTop: isMobile ? "16vh" : 0,
+        paddingTop: isMobile ? "3vh" : 0,
         paddingBottom: 0,
       }}
     >
