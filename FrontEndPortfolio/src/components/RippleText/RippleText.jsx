@@ -17,7 +17,23 @@ const fragmentShader = `
   uniform float uTime;
   uniform vec2 uMouse;
   uniform float uHover;
+  uniform float uEffect;
   varying vec2 vUv;
+
+  float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453123);
+  }
+
+  float noise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    vec2 u = f * f * (3.0 - 2.0 * f);
+    float a = hash(i + vec2(0.0, 0.0));
+    float b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0));
+    float d = hash(i + vec2(1.0, 1.0));
+    return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+  }
 
   void main() {
     vec2 uv = vUv;
@@ -29,16 +45,24 @@ const fragmentShader = `
     ripple *= smoothstep(2.0, 0.8, uTime * 0.5);
     ripple *= uHover;
 
-    uv.x += ripple * 0.6;
-    uv.y += ripple * 0.6;
+    vec2 flow = uv * vec2(7.0, 8.8) + vec2(0.0, -uTime * 1.15);
+    float n1 = noise(flow + uMouse * 2.8);
+    float n2 = noise(flow * 1.65 - vec2(uTime * 0.32, 0.0));
+    float plume = (n1 * 0.64 + n2 * 0.36) - 0.5;
+    float smokeStrength = smoothstep(1.0, 0.05, dist) * uHover;
+    vec2 smokeWarp = vec2(plume * 0.06, plume * 0.1 + smokeStrength * 0.02) * smokeStrength;
+    float smokeMode = step(0.5, uEffect);
+    uv.x += mix(ripple * 0.6, smokeWarp.x, smokeMode);
+    uv.y += mix(ripple * 0.6, smokeWarp.y, smokeMode);
 
     vec4 color = texture2D(uTexture, clamp(uv, 0.001, 0.999));
+    color.rgb += vec3(0.18) * smokeMode * smokeStrength * 0.24;
     gl_FragColor = color;
   }
 `;
 
 const RippleText = forwardRef(function RippleText(
-  { children, className, style, tag: Tag = "h2" },
+  { children, className, style, tag: Tag = "h2", effect = "ripple" },
   forwardedRef
 ) {
   const containerRef = useRef(null);
@@ -155,6 +179,7 @@ const RippleText = forwardRef(function RippleText(
       uTime: gl.getUniformLocation(program, "uTime"),
       uMouse: gl.getUniformLocation(program, "uMouse"),
       uHover: gl.getUniformLocation(program, "uHover"),
+      uEffect: gl.getUniformLocation(program, "uEffect"),
     };
 
     const buildTexture = () => {
@@ -238,6 +263,7 @@ const RippleText = forwardRef(function RippleText(
       gl.uniform1f(s.uniforms.uTime, s.rippleTime);
       gl.uniform2f(s.uniforms.uMouse, s.mouse.x, 1.0 - s.mouse.y);
       gl.uniform1f(s.uniforms.uHover, s.hover);
+      gl.uniform1f(s.uniforms.uEffect, effect === "smoke" ? 1 : 0);
 
       gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
       s.animId = requestAnimationFrame(render);
@@ -281,7 +307,7 @@ const RippleText = forwardRef(function RippleText(
       if (s.uvBuf) gl.deleteBuffer(s.uvBuf);
       if (s.program) gl.deleteProgram(s.program);
     };
-  }, [children, disableWebgl]);
+  }, [children, disableWebgl, effect]);
 
   const setRefs = (node) => {
     containerRef.current = node;

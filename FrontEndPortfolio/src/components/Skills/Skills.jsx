@@ -63,7 +63,7 @@ const Skills = () => {
     <section className="skills" id="skills" data-scroll-section>
       <div className="section__header">
         <span className="section__number">03</span>
-        <RippleText tag="h2" className="section-title reveal" ref={titleRef}>
+        <RippleText tag="h2" className="section-title reveal" ref={titleRef} effect="smoke">
           Core Skills
         </RippleText>
       </div>
@@ -77,6 +77,4 @@ const Skills = () => {
 };
 
 export default Skills;
-
-
 

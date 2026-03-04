@@ -33,7 +33,16 @@ const ROUTE_TO_SECTION = {
   "/contact": "contact",
 };
 
-const normalizePath = (path) => {
+const normalizePath = (path, hash = "") => {
+  const normalizedHash = (hash || "").toLowerCase();
+  if (normalizedHash === "#contact") return "/contact";
+  if (normalizedHash === "#about") return "/about";
+  if (normalizedHash === "#skills") return "/skills";
+  if (normalizedHash === "#experience") return "/experience";
+  if (normalizedHash === "#creative") return "/creative";
+  if (normalizedHash === "#testimonials") return "/testimonials";
+  if (normalizedHash === "#moments" || normalizedHash === "#projects") return "/moments";
+
   const clean = (path || "/")
     .toLowerCase()
     .split("?")[0]
@@ -44,7 +53,7 @@ const normalizePath = (path) => {
 
 const App = () => {
   const [routePath, setRoutePath] = useState(() =>
-    typeof window !== "undefined" ? normalizePath(window.location.pathname) : "/"
+    typeof window !== "undefined" ? normalizePath(window.location.pathname, window.location.hash) : "/"
   );
   const routeSection = useMemo(() => ROUTE_TO_SECTION[routePath] || null, [routePath]);
 
@@ -70,15 +79,22 @@ const App = () => {
     const navbar = document.querySelector(".navbar");
     const onScroll = ({ scroll }) => {
       if (!navbar) return;
-      if (scroll > 20) navbar.classList.add("navbar--scrolled");
-      else navbar.classList.remove("navbar--scrolled");
+      if (scroll > 20) {
+        navbar.classList.add("navbar--scrolled");
+        navbar.classList.add("navbar--hidden");
+      } else {
+        navbar.classList.remove("navbar--scrolled");
+        navbar.classList.remove("navbar--hidden");
+      }
     };
 
     const onPopState = () => {
-      setRoutePath(normalizePath(window.location.pathname));
+      setRoutePath(normalizePath(window.location.pathname, window.location.hash));
     };
     const onNavigate = (e) => {
-      const next = normalizePath(e?.detail?.path || "/");
+      const requested = e?.detail?.path || "/";
+      const url = new URL(requested, window.location.origin);
+      const next = normalizePath(url.pathname, url.hash);
       if (window.location.pathname !== next) {
         window.history.pushState({}, "", next);
       }

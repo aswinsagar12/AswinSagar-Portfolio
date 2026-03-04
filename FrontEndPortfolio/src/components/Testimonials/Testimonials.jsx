@@ -46,7 +46,7 @@ const Testimonials = () => {
     <section className="testimonials" id="testimonials" data-scroll-section>
       <div className="section__header">
         <span className="section__number">06</span>
-        <RippleText tag="h2" className="section-title reveal" ref={titleRef}>
+        <RippleText tag="h2" className="section-title reveal" ref={titleRef} effect="smoke">
           Testimonials
         </RippleText>
       </div>
@@ -68,6 +68,4 @@ const Testimonials = () => {
 };
 
 export default Testimonials;
-
-
 

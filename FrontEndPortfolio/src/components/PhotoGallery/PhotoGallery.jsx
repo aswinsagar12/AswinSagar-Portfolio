@@ -330,7 +330,7 @@ const PhotoGallery = () => {
     <section className="gallery-section section" id="moments" data-scroll-section>
       <div className="gallery-header section__header">
         <span className="section__number">07</span>
-        <RippleText tag="h2" className="section-title">
+        <RippleText tag="h2" className="section-title" effect="smoke">
           Moments
         </RippleText>
       </div>
@@ -350,5 +350,4 @@ const PhotoGallery = () => {
 };
 
 export default PhotoGallery;
-
 

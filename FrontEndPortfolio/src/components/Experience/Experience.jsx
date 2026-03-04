@@ -76,7 +76,7 @@ const Experience = () => {
     <section className="experience" id="experience" data-scroll-section>
       <div className="section__header">
         <span className="section__number">04</span>
-        <RippleText tag="h2" className="section-title reveal" ref={titleRef}>
+        <RippleText tag="h2" className="section-title reveal" ref={titleRef} effect="smoke">
           Experience
         </RippleText>
       </div>
@@ -90,3 +90,4 @@ const Experience = () => {
 };
 
 export default Experience;
+

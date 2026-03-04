@@ -1,6 +1,11 @@
 import React from "react";
 
 export default function RouteNotFound() {
+  const handleNavigate = (e, path) => {
+    e.preventDefault();
+    window.dispatchEvent(new CustomEvent("app:navigate", { detail: { path } }));
+  };
+
   return (
     <section
       style={{
@@ -33,6 +38,7 @@ export default function RouteNotFound() {
         <div style={{ marginTop: "1.25rem", display: "flex", gap: "0.75rem", flexWrap: "wrap" }}>
           <a
             href="/"
+            onClick={(e) => handleNavigate(e, "/")}
             style={{
               color: "#fff",
               textDecoration: "none",
@@ -44,7 +50,8 @@ export default function RouteNotFound() {
             Go Home
           </a>
           <a
-            href="/#contact"
+            href="/contact"
+            onClick={(e) => handleNavigate(e, "/contact")}
             style={{
               color: "#fff",
               textDecoration: "none",

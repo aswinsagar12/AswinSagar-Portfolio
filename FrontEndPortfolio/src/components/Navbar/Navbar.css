@@ -1,4 +1,4 @@
-﻿.navbar {
+.navbar {
   position: fixed;
   top: 0;
   left: 0;
@@ -10,11 +10,17 @@
   z-index: 10;
   font-family: var(--mono);
   background: transparent;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, transform 0.35s ease, opacity 0.3s ease;
 }
 
 .navbar--scrolled {
   border-bottom: 1px solid var(--border);
+}
+
+.navbar--hidden {
+  transform: translateY(-120%);
+  opacity: 0;
+  pointer-events: none;
 }
 
 .navbar__brand {
@@ -29,33 +35,63 @@
   gap: 2rem;
 }
 
-.navbar__links a {
+.navbar__link {
   position: relative;
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.4rem;
   text-transform: uppercase;
   font-size: 14px;
   line-height: 22px;
   letter-spacing: 0.2em;
 }
 
-.navbar__links a::after {
+.navbar__link-main {
+  white-space: nowrap;
+}
+
+.navbar__link-side {
+  max-width: 0;
+  overflow: hidden;
+  opacity: 0;
+  white-space: nowrap;
+  text-transform: none;
+  font-size: 11px;
+  line-height: 16px;
+  letter-spacing: 0.08em;
+  transform: translateX(-0.2rem);
+  transition: max-width 0.35s ease, opacity 0.2s ease, transform 0.35s ease;
+}
+
+.navbar__link-side--before {
+  order: -1;
+}
+
+.navbar__link::after {
   content: "";
   position: absolute;
   left: 0;
   bottom: -6px;
-  width: 0;
+  width: 100%;
   height: 1px;
   background: var(--accent);
-  transform: scaleX(0);
+  transform: scaleX(0.05);
   transform-origin: left;
   transition: transform 0.35s cubic-bezier(0.76, 0, 0.24, 1);
 }
 
-.navbar__links a:hover::after {
+.navbar__link:hover::after {
   transform: scaleX(1);
 }
 
-.navbar__links a:hover {
+.navbar__link:hover {
   letter-spacing: 0.26em;
+}
+
+.navbar__link:hover .navbar__link-side {
+  max-width: 13rem;
+  opacity: 0.85;
+  transform: translateX(0);
 }
 
 @media screen and (max-width: 900px) {

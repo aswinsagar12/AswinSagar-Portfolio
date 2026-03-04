@@ -37,7 +37,7 @@ const About = () => {
     <section className="about section" id="about" data-scroll-section>
       <div className="section__header">
         <span className="section__number">02</span>
-        <RippleText tag="h2" className="section-title reveal" ref={titleRef}>
+        <RippleText tag="h2" className="section-title reveal" ref={titleRef} effect="smoke">
           About
         </RippleText>
       </div>
